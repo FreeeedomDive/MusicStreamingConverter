@@ -12,12 +12,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Auth\telegramAuth.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\SpotifyLibrary\SpotifyLibrary.csproj" />
       <ProjectReference Include="..\YandexMusicLibrary\YandexMusicLibrary.csproj" />
     </ItemGroup>

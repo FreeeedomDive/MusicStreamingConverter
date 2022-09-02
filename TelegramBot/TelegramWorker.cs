@@ -56,29 +56,38 @@ public class TelegramWorker : ITelegramWorker
             return;
 
         var chatId = message.Chat.Id;
-
-        if (messageText == "/start")
+        try
         {
-            await telegramBotClient.SendTextMessageAsync(
-                chatId: chatId,
-                text: "Ку",
-                cancellationToken: cancellationTokenSource.Token);
-            return;
-        }
 
-        if (IsSpotifyLink(messageText, out var spotifyId))
+            if (messageText == "/start")
+            {
+                await SendMessage(chatId, "Ку");
+                return;
+            }
+
+            if (IsSpotifyLink(messageText, out var spotifyId))
+            {
+                await HandleSpotifyLink(chatId, spotifyId);
+                return;
+            }
+
+            if (IsYandexMusicLink(messageText, out var yandexSongId))
+            {
+                await HandleYandexMusicLink(chatId, yandexSongId);
+                return;
+            }
+
+            await SendMessage(chatId, "Ничего не распарсил");
+        }
+        catch(Exception e)
         {
-            await HandleSpotifyLink(chatId, spotifyId);
-            return;
+            if (e.Message.StartsWith("Unexpected character encountered while parsing value"))
+            {
+                await SendMessage(chatId, $"Возникла ошибка при обработке\nСкорее всего яндекс просит ввести капчу, так что нужно подождать");
+                return;
+            }
+            await SendMessage(chatId, $"Возникла ошибка при обработке\n{e.Message}");
         }
-
-        if (IsYandexMusicLink(messageText, out var yandexSongId))
-        {
-            await HandleYandexMusicLink(chatId, yandexSongId);
-            return;
-        }
-
-        await SendMessage(chatId, "Ничего не распарсил");
     }
 
     private async Task HandleSpotifyLink(long chatId, string songId)
@@ -115,8 +124,11 @@ public class TelegramWorker : ITelegramWorker
     private static bool IsSpotifyLink(string message, out string id)
     {
         id = null;
-        var regex = new Regex(@"https://open.spotify.com/track/(.*)(\?si=.*)?");
-        var result = regex.Match(message);
+        var regex = new Regex(@"https://open.spotify.com/track/(.*)");
+        var hasBadSymbols = message.Contains("?si=", StringComparison.Ordinal);
+        var maxLinkLength = hasBadSymbols ? message.IndexOf("?si=", StringComparison.Ordinal) : message.Length;
+        var link = message[..maxLinkLength];
+        var result = regex.Match(link);
 
         if (!result.Success)
         {
@@ -124,6 +136,7 @@ public class TelegramWorker : ITelegramWorker
         }
 
         id = result.Groups[1].Captures[0].Value;
+        Console.WriteLine($"Found id {id}");
 
         return true;
     }
@@ -131,7 +144,7 @@ public class TelegramWorker : ITelegramWorker
     public static bool IsYandexMusicLink(string message, out string id)
     {
         id = null;
-        var regex = new Regex(@"https://music.yandex.ru/album/.*/track/(.*)");
+        var regex = new Regex(@"https://music.yandex.(ru|com)/album/.*/track/(\d*)(.*)");
         var result = regex.Match(message);
 
         if (!result.Success)
@@ -139,7 +152,8 @@ public class TelegramWorker : ITelegramWorker
             return false;
         }
 
-        id = result.Groups[1].Captures[0].Value;
+        id = result.Groups[2].Captures[0].Value;
+        Console.WriteLine($"Found id {id}");
 
         return true;
     }

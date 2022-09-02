@@ -11,10 +11,4 @@
       <PackageReference Include="Yandex.Music.Api" Version="1.0.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <None Update="Auth\yandexAuth.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
 </Project>
