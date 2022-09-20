@@ -81,6 +81,8 @@ public class TelegramWorker : ITelegramWorker
         }
         catch(Exception e)
         {
+            Console.WriteLine("=====================");
+            Console.WriteLine(e.Message);
             if (e.Message.StartsWith("Unexpected character encountered while parsing value"))
             {
                 await SendMessage(chatId, $"Возникла ошибка при обработке\nСкорее всего яндекс просит ввести капчу, так что нужно подождать");
@@ -184,10 +186,17 @@ public class TelegramWorker : ITelegramWorker
 
     private async Task SendMessage(long chatId, string message)
     {
-        await telegramBotClient.SendTextMessageAsync(
-            chatId: chatId,
-            text: message,
-            cancellationToken: cancellationTokenSource.Token);
+        try
+        {
+            await telegramBotClient.SendTextMessageAsync(
+                chatId: chatId,
+                text: message,
+                cancellationToken: cancellationTokenSource.Token);
+        }
+        catch
+        {
+            Console.WriteLine("Ошибка при отправке сообщения");
+        }
     }
 
     private readonly ITelegramBotClient telegramBotClient;
