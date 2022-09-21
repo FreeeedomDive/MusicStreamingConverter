@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Loggers;
 using SpotifyAPI.Web;
 using SpotifyLibrary;
 using Telegram.Bot;
@@ -15,12 +16,14 @@ public class TelegramWorker : ITelegramWorker
     public TelegramWorker(
         ITelegramBotClient telegramBotClient,
         ISpotifyService spotifyService,
-        IYandexMusicService yandexMusicService
+        IYandexMusicService yandexMusicService,
+        ILogger logger
     )
     {
         this.telegramBotClient = telegramBotClient;
         this.spotifyService = spotifyService;
         this.yandexMusicService = yandexMusicService;
+        this.logger = logger;
 
         cancellationTokenSource = new CancellationTokenSource();
     }
@@ -45,7 +48,7 @@ public class TelegramWorker : ITelegramWorker
 
     private Task HandlePollingErrorAsync(ITelegramBotClient client, Exception exception, CancellationToken cts)
     {
-        Console.WriteLine(exception.Message);
+        logger.Error("Telegram polling error", exception);
 
         return Task.CompletedTask;
     }
@@ -56,6 +59,7 @@ public class TelegramWorker : ITelegramWorker
             return;
 
         var chatId = message.Chat.Id;
+        logger.Info("{Username}: {Message}", message.Chat.Username ?? chatId.ToString(), messageText);
         try
         {
 
@@ -81,8 +85,7 @@ public class TelegramWorker : ITelegramWorker
         }
         catch(Exception e)
         {
-            Console.WriteLine("=====================");
-            Console.WriteLine(e.Message);
+            logger.Error("Exception in message handler", e);
             if (e.Message.StartsWith("Unexpected character encountered while parsing value"))
             {
                 await SendMessage(chatId, $"Возникла ошибка при обработке\nСкорее всего яндекс просит ввести капчу, так что нужно подождать");
@@ -193,15 +196,16 @@ public class TelegramWorker : ITelegramWorker
                 text: message,
                 cancellationToken: cancellationTokenSource.Token);
         }
-        catch
+        catch(Exception exception)
         {
-            Console.WriteLine("Ошибка при отправке сообщения");
+            logger.Error("Exception in SendMessage", exception);
         }
     }
 
     private readonly ITelegramBotClient telegramBotClient;
     private readonly ISpotifyService spotifyService;
     private readonly IYandexMusicService yandexMusicService;
+    private readonly ILogger logger;
 
     private readonly CancellationTokenSource cancellationTokenSource;
 }

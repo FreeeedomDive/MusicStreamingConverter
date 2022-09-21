@@ -9,12 +9,20 @@
 
     <ItemGroup>
       <PackageReference Include="Ninject" Version="3.3.6" />
+      <PackageReference Include="NLog" Version="5.0.4" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Loggers\Loggers.csproj" />
       <ProjectReference Include="..\SpotifyLibrary\SpotifyLibrary.csproj" />
       <ProjectReference Include="..\TelegramBot\TelegramBot.csproj" />
       <ProjectReference Include="..\YandexMusicLibrary\YandexMusicLibrary.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="NLog.config">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

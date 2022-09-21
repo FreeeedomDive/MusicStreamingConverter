@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Loggers\Loggers.csproj" />
       <ProjectReference Include="..\SpotifyLibrary\SpotifyLibrary.csproj" />
       <ProjectReference Include="..\YandexMusicLibrary\YandexMusicLibrary.csproj" />
     </ItemGroup>

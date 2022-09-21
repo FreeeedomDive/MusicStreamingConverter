@@ -1,4 +1,6 @@
-﻿using Ninject;
+﻿using Loggers;
+using Ninject;
+using NLog;
 using SpotifyAPI.Web;
 using SpotifyLibrary;
 using SpotifyLibrary.Builder;
@@ -8,11 +10,21 @@ using TelegramBot.Builder;
 using Yandex.Music.Api;
 using YandexMusicLibrary;
 using YandexMusicLibrary.Builder;
+using ILogger = Loggers.ILogger;
 
 namespace Worker.DI;
 
 public static class StandardKernelExtensions
 {
+    public static StandardKernel WithLogger(this StandardKernel ninjectKernel)
+    {
+        var logger = LogManager.GetLogger("Default");
+        ninjectKernel.Bind<Logger>().ToConstant(logger);
+        ninjectKernel.Bind<ILogger>().To<NLogger>();
+
+        return ninjectKernel;
+    }
+
     public static StandardKernel WithAuthProviders(this StandardKernel standardKernel)
     {
         standardKernel.Bind<SpotifyLibrary.Auth.IAuthProvider>().To<SpotifyLibrary.Auth.AuthProvider>();
@@ -21,7 +33,7 @@ public static class StandardKernelExtensions
 
         return standardKernel;
     }
-    
+
     public static StandardKernel WithClientBuilders(this StandardKernel standardKernel)
     {
         standardKernel.Bind<ISpotifyClientBuilder>().To<SpotifyClientBuilder>();
@@ -35,10 +47,10 @@ public static class StandardKernelExtensions
     {
         var spotifyClient = standardKernel.Get<ISpotifyClientBuilder>().BuildClient();
         standardKernel.Bind<ISpotifyClient>().ToConstant(spotifyClient);
-        
+
         var yandexClient = standardKernel.Get<IYandexMusicBuilder>().BuildClient();
         standardKernel.Bind<YandexApi>().ToConstant(yandexClient);
-        
+
         var telegramBot = standardKernel.Get<ITelegramBotBuilder>().BuildClient();
         standardKernel.Bind<ITelegramBotClient>().ToConstant(telegramBot);
 

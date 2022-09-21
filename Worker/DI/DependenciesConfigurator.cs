@@ -7,6 +7,7 @@ public class DependenciesConfigurator
     public StandardKernel BuildDependencies()
     {
         var ninjectKernel = new StandardKernel()
+            .WithLogger()
             .WithAuthProviders()
             .WithClientBuilders()
             .WithClients()

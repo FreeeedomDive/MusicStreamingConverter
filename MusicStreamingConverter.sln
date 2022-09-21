@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot", "TelegramBot\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Worker", "Worker\Worker.csproj", "{C191B94B-D4EA-4E62-B63E-7B544EBD4819}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loggers", "Loggers\Loggers.csproj", "{D2A203DE-44DD-4662-8E94-BD6674C26EC3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{C191B94B-D4EA-4E62-B63E-7B544EBD4819}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C191B94B-D4EA-4E62-B63E-7B544EBD4819}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C191B94B-D4EA-4E62-B63E-7B544EBD4819}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2A203DE-44DD-4662-8E94-BD6674C26EC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2A203DE-44DD-4662-8E94-BD6674C26EC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2A203DE-44DD-4662-8E94-BD6674C26EC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2A203DE-44DD-4662-8E94-BD6674C26EC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
