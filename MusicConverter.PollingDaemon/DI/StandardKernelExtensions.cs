@@ -20,9 +20,8 @@ public static class StandardKernelExtensions
 {
     public static StandardKernel WithLogger(this StandardKernel ninjectKernel)
     {
-        var logger = LogManager.GetLogger("Default");
-        ninjectKernel.Bind<Logger>().ToConstant(logger);
-        ninjectKernel.Bind<ILogger>().To<NLogger>();
+        var logger = NLogger.Build("Default");
+        ninjectKernel.Bind<ILogger>().ToConstant(logger);
 
         return ninjectKernel;
     }
