@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YandexMusicLibrary", "Yande
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot", "TelegramBot\TelegramBot.csproj", "{F541A7F3-04CB-4AB0-857D-36EBBB633C77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Worker", "Worker\Worker.csproj", "{C191B94B-D4EA-4E62-B63E-7B544EBD4819}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicConverter.PollingDaemon", "MusicConverter.PollingDaemon\MusicConverter.PollingDaemon.csproj", "{C191B94B-D4EA-4E62-B63E-7B544EBD4819}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loggers", "Loggers\Loggers.csproj", "{D2A203DE-44DD-4662-8E94-BD6674C26EC3}"
 EndProject

@@ -12,7 +12,7 @@ using YandexMusicLibrary;
 using YandexMusicLibrary.Builder;
 using ILogger = Loggers.ILogger;
 
-namespace Worker.DI;
+namespace MusicConverter.PollingDaemon.DI;
 
 public static class StandardKernelExtensions
 {

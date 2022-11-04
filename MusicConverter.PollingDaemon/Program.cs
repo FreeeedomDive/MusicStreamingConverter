@@ -1,8 +1,8 @@
-﻿using Ninject;
+﻿using MusicConverter.PollingDaemon.DI;
+using Ninject;
 using TelegramBot;
-using Worker.DI;
 
-namespace Worker;
+namespace MusicConverter.PollingDaemon;
 
 public class EntryPoint
 {

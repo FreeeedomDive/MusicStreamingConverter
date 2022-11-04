@@ -1,6 +1,6 @@
 ﻿using Ninject;
 
-namespace Worker.DI;
+namespace MusicConverter.PollingDaemon.DI;
 
 public class DependenciesConfigurator
 {
