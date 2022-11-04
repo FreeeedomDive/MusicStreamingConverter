@@ -8,6 +8,7 @@ public class DependenciesConfigurator
     {
         var ninjectKernel = new StandardKernel()
             .WithLogger()
+            .WithApiClient()
             .WithAuthProviders()
             .WithClientBuilders()
             .WithClients()
