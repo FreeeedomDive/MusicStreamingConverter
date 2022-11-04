@@ -1,13 +1,12 @@
 ﻿using System.Text.RegularExpressions;
 using Loggers;
+using MusicConverter.MusicSearch.Client;
 using SpotifyAPI.Web;
-using SpotifyLibrary;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Yandex.Music.Api.Models;
-using YandexMusicLibrary;
 
 namespace TelegramBot;
 
@@ -15,14 +14,12 @@ public class TelegramWorker : ITelegramWorker
 {
     public TelegramWorker(
         ITelegramBotClient telegramBotClient,
-        ISpotifyService spotifyService,
-        IYandexMusicService yandexMusicService,
+        IMusicSearchClient musicSearchClient,
         ILogger logger
     )
     {
         this.telegramBotClient = telegramBotClient;
-        this.spotifyService = spotifyService;
-        this.yandexMusicService = yandexMusicService;
+        this.musicSearchClient = musicSearchClient;
         this.logger = logger;
 
         cancellationTokenSource = new CancellationTokenSource();
@@ -69,13 +66,13 @@ public class TelegramWorker : ITelegramWorker
                 return;
             }
 
-            if (IsSpotifyLink(messageText, out var spotifyId))
+            if (IsSpotifyLink(messageText, out var spotifyId) && spotifyId is not null)
             {
                 await HandleSpotifyLink(chatId, spotifyId);
                 return;
             }
 
-            if (IsYandexMusicLink(messageText, out var yandexSongId))
+            if (IsYandexMusicLink(messageText, out var yandexSongId) && yandexSongId is not null)
             {
                 await HandleYandexMusicLink(chatId, yandexSongId);
                 return;
@@ -97,11 +94,11 @@ public class TelegramWorker : ITelegramWorker
 
     private async Task HandleSpotifyLink(long chatId, string songId)
     {
-        var track = await spotifyService.GetTrack(songId);
+        var track = await musicSearchClient.Spotify.GetTrackAsync(songId);
         var trackInfo = SpotifyTrackToString(track);
         var query = $"{track.Artists.First().Name} {track.Name} {track.Album.Name}";
 
-        var sameYandexTrack = yandexMusicService.FindTrack(query);
+        var sameYandexTrack = (await musicSearchClient.YandexMusic.FindTracksAsync(query)).FirstOrDefault();
         var yandexTrackInfo = YandexMusicTrackToString(sameYandexTrack);
 
         await SendMessage(chatId, $"{trackInfo}\n===========\nТрек в Яндекс.Музыке\n{yandexTrackInfo}");
@@ -113,10 +110,10 @@ public class TelegramWorker : ITelegramWorker
 
     private async Task HandleYandexMusicLink(long chatId, string songId)
     {
-        var track = yandexMusicService.GetTrack(songId);
+        var track = await musicSearchClient.YandexMusic.GetTrackAsync(songId);
         var trackInfo = YandexMusicTrackToString(track);
         var query = $"{track.Artists.First().Name} {track.Title} {track.Albums.First().Title}";
-        var sameSpotifyTrack = await spotifyService.FindTrack(query);
+        var sameSpotifyTrack = (await musicSearchClient.Spotify.FindTracksAsync(query)).FirstOrDefault();
         var spotifyTrackInfo = SpotifyTrackToString(sameSpotifyTrack);
 
         await SendMessage(chatId, $"{trackInfo}\n===========\nТрек в спотифае\n{spotifyTrackInfo}");
@@ -126,7 +123,7 @@ public class TelegramWorker : ITelegramWorker
         }
     }
 
-    private static bool IsSpotifyLink(string message, out string id)
+    private static bool IsSpotifyLink(string message, out string? id)
     {
         id = null;
         var regex = new Regex(@"https://open.spotify.com/track/(.*)");
@@ -146,7 +143,7 @@ public class TelegramWorker : ITelegramWorker
         return true;
     }
 
-    public static bool IsYandexMusicLink(string message, out string id)
+    private static bool IsYandexMusicLink(string message, out string? id)
     {
         id = null;
         var regex = new Regex(@"https://music.yandex.(ru|com)/album/.*/track/(\d*)(.*)");
@@ -203,8 +200,7 @@ public class TelegramWorker : ITelegramWorker
     }
 
     private readonly ITelegramBotClient telegramBotClient;
-    private readonly ISpotifyService spotifyService;
-    private readonly IYandexMusicService yandexMusicService;
+    private readonly IMusicSearchClient musicSearchClient;
     private readonly ILogger logger;
 
     private readonly CancellationTokenSource cancellationTokenSource;

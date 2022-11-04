@@ -1,6 +1,6 @@
 ﻿using SpotifyAPI.Web;
 
-namespace SpotifyLibrary.Builder;
+namespace MusicConverter.MusicSearch.SpotifyService.Builder;
 
 public interface ISpotifyClientBuilder
 {

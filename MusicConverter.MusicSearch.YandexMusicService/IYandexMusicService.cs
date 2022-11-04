@@ -4,9 +4,9 @@ namespace YandexMusicLibrary;
 
 public interface IYandexMusicService
 {
-    public YandexTrack? FindTrack(string query);
-    public YandexArtist? FindArtist(string query);
-    public YandexAlbum? FindAlbum(string query);
+    public YandexTrack[] FindTracks(string query, int skip = 0, int take = 10);
+    public YandexArtist[] FindArtists(string query, int skip = 0, int take = 10);
+    public YandexAlbum[] FindAlbums(string query, int skip = 0, int take = 10);
     
     public YandexTrack GetTrack(string id);
     public YandexArtist GetArtist(string id);

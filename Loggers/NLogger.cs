@@ -4,24 +4,30 @@ namespace Loggers;
 
 public class NLogger : ILogger
 {
-    public NLogger(Logger logger)
+    private NLogger(Logger logger)
     {
         this.logger = logger;
     }
 
-    public void Info(string message, params object[] args)
+    public void Info(string message, params object?[] args)
     {
         logger.Info(message, args);
     }
 
-    public void Error(string message, params object[] args)
+    public void Error(string message, params object?[] args)
     {
         logger.Error(message, args);
     }
 
-    public void Error(string message, Exception exception)
+    public void Error(Exception exception, string message, params object?[] args)
     {
-        logger.Error(message, exception);
+        logger.Error(message, exception, args);
+    }
+
+    public static NLogger Build(string name)
+    {
+        var logger = LogManager.GetLogger(name);
+        return new NLogger(logger);
     }
 
     private readonly Logger logger;

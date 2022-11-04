@@ -10,22 +10,22 @@ public class YandexMusicService : IYandexMusicService
         this.yandexApi = yandexApi;
     }
     
-    public YandexTrack? FindTrack(string query)
+    public YandexTrack[] FindTracks(string query, int skip = 0, int take = 10)
     {
         var response = yandexApi.SearchTrack(query);
-        return response?.FirstOrDefault();
+        return GetPage(response, skip, take);
     }
 
-    public YandexArtist? FindArtist(string query)
+    public YandexArtist[] FindArtists(string query, int skip = 0, int take = 10)
     {
         var response = yandexApi.SearchArtist(query);
-        return response?.FirstOrDefault();
+        return GetPage(response, skip, take);
     }
 
-    public YandexAlbum? FindAlbum(string query)
+    public YandexAlbum[] FindAlbums(string query, int skip = 0, int take = 10)
     {
         var response = yandexApi.SearchAlbums(query);
-        return response?.FirstOrDefault();
+        return GetPage(response, skip, take);
     }
 
     public YandexTrack GetTrack(string id)
@@ -42,6 +42,11 @@ public class YandexMusicService : IYandexMusicService
     public YandexAlbum GetAlbum(string id)
     {
         return yandexApi.GetAlbum(id);
+    }
+    
+    private static T[] GetPage<T>(IEnumerable<T>? items, int skip, int take)
+    {
+        return items?.Skip(skip).Take(take).ToArray() ?? Array.Empty<T>();
     }
 
     private readonly YandexApi yandexApi;

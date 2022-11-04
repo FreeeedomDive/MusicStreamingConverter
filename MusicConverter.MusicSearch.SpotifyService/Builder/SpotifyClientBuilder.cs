@@ -1,7 +1,7 @@
-﻿using SpotifyAPI.Web;
-using SpotifyLibrary.Auth;
+﻿using MusicConverter.MusicSearch.SpotifyService.Auth;
+using SpotifyAPI.Web;
 
-namespace SpotifyLibrary.Builder;
+namespace MusicConverter.MusicSearch.SpotifyService.Builder;
 
 public class SpotifyClientBuilder : ISpotifyClientBuilder
 {

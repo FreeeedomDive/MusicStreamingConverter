@@ -14,9 +14,11 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Loggers\Loggers.csproj" />
-      <ProjectReference Include="..\SpotifyLibrary\SpotifyLibrary.csproj" />
+      <ProjectReference Include="..\MusicConverter.MusicSearch.Client\MusicConverter.MusicSearch.Client.csproj" />
+      <ProjectReference Include="..\MusicConverter.MusicSearch.SpotifyService\MusicConverter.MusicSearch.SpotifyService.csproj" />
+      <ProjectReference Include="..\RestClient\RestClient.csproj" />
       <ProjectReference Include="..\TelegramBot\TelegramBot.csproj" />
-      <ProjectReference Include="..\YandexMusicLibrary\YandexMusicLibrary.csproj" />
+      <ProjectReference Include="..\MusicConverter.MusicSearch.YandexMusicService\MusicConverter.MusicSearch.YandexMusicService.csproj" />
     </ItemGroup>
 
     <ItemGroup>

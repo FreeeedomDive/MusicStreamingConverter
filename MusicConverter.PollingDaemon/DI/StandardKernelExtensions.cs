@@ -1,9 +1,11 @@
 ﻿using Loggers;
+using MusicConverter.MusicSearch.Client;
 using Ninject;
 using NLog;
 using SpotifyAPI.Web;
-using SpotifyLibrary;
-using SpotifyLibrary.Builder;
+using MusicConverter.MusicSearch.SpotifyService;
+using MusicConverter.MusicSearch.SpotifyService.Builder;
+using RestClient;
 using Telegram.Bot;
 using TelegramBot;
 using TelegramBot.Builder;
@@ -27,8 +29,6 @@ public static class StandardKernelExtensions
 
     public static StandardKernel WithAuthProviders(this StandardKernel standardKernel)
     {
-        standardKernel.Bind<SpotifyLibrary.Auth.IAuthProvider>().To<SpotifyLibrary.Auth.AuthProvider>();
-        standardKernel.Bind<YandexMusicLibrary.Auth.IAuthProvider>().To<YandexMusicLibrary.Auth.AuthProvider>();
         standardKernel.Bind<TelegramBot.Auth.IAuthProvider>().To<TelegramBot.Auth.AuthProvider>();
 
         return standardKernel;
@@ -36,21 +36,22 @@ public static class StandardKernelExtensions
 
     public static StandardKernel WithClientBuilders(this StandardKernel standardKernel)
     {
-        standardKernel.Bind<ISpotifyClientBuilder>().To<SpotifyClientBuilder>();
-        standardKernel.Bind<IYandexMusicBuilder>().To<YandexMusicBuilder>();
         standardKernel.Bind<ITelegramBotBuilder>().To<TelegramBotBuilder>();
+
+        return standardKernel;
+    }
+
+    public static StandardKernel WithApiClient(this StandardKernel standardKernel)
+    {
+        var restClient = RestClientBuilder.BuildRestClient("https://localhost:3280");
+        standardKernel.Bind<RestSharp.RestClient>().ToConstant(restClient);
+        standardKernel.Bind<IMusicSearchClient>().To<MusicSearchClient>();
 
         return standardKernel;
     }
 
     public static StandardKernel WithClients(this StandardKernel standardKernel)
     {
-        var spotifyClient = standardKernel.Get<ISpotifyClientBuilder>().BuildClient();
-        standardKernel.Bind<ISpotifyClient>().ToConstant(spotifyClient);
-
-        var yandexClient = standardKernel.Get<IYandexMusicBuilder>().BuildClient();
-        standardKernel.Bind<YandexApi>().ToConstant(yandexClient);
-
         var telegramBot = standardKernel.Get<ITelegramBotBuilder>().BuildClient();
         standardKernel.Bind<ITelegramBotClient>().ToConstant(telegramBot);
 
@@ -59,8 +60,6 @@ public static class StandardKernelExtensions
 
     public static StandardKernel WithExecutableServices(this StandardKernel standardKernel)
     {
-        standardKernel.Bind<ISpotifyService>().To<SpotifyService>();
-        standardKernel.Bind<IYandexMusicService>().To<YandexMusicService>();
         standardKernel.Bind<ITelegramWorker>().To<TelegramWorker>();
 
         return standardKernel;

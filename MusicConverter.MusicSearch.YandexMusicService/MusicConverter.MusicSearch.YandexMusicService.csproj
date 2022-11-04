@@ -4,11 +4,18 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>YandexMusicLibrary</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-      <PackageReference Include="SpotifyAPI.Web" Version="6.2.2" />
+      <PackageReference Include="Yandex.Music.Api" Version="1.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="Auth\yandexAuth.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

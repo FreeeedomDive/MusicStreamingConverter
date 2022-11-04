@@ -1,4 +1,4 @@
-﻿namespace SpotifyLibrary.Auth;
+﻿namespace MusicConverter.MusicSearch.SpotifyService.Auth;
 
 public class AuthData
 {

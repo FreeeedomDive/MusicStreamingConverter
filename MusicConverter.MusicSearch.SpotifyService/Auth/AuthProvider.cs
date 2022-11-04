@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace SpotifyLibrary.Auth;
+namespace MusicConverter.MusicSearch.SpotifyService.Auth;
 
 public class AuthProvider : IAuthProvider
 {
