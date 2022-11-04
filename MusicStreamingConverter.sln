@@ -1,16 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicConverter.MusicSearch.SpotifyService", "MusicConverter.MusicSearch.SpotifyService\MusicConverter.MusicSearch.SpotifyService.csproj", "{A318DFE0-A260-42A5-881F-731289921018}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicSearch.SpotifyService", "MusicSearch.SpotifyService\MusicSearch.SpotifyService.csproj", "{A318DFE0-A260-42A5-881F-731289921018}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicConverter.MusicSearch.YandexMusicService", "MusicConverter.MusicSearch.YandexMusicService\MusicConverter.MusicSearch.YandexMusicService.csproj", "{2982ABF4-4DCA-4FFB-8F0A-72F6E797BAEA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicSearch.YandexMusicService", "MusicSearch.YandexMusicService\MusicSearch.YandexMusicService.csproj", "{2982ABF4-4DCA-4FFB-8F0A-72F6E797BAEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot", "TelegramBot\TelegramBot.csproj", "{F541A7F3-04CB-4AB0-857D-36EBBB633C77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot.WorkerService", "TelegramBot.WorkerService\TelegramBot.WorkerService.csproj", "{F541A7F3-04CB-4AB0-857D-36EBBB633C77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicConverter.PollingDaemon", "MusicConverter.PollingDaemon\MusicConverter.PollingDaemon.csproj", "{C191B94B-D4EA-4E62-B63E-7B544EBD4819}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot.PollingDaemon", "TelegramBot.PollingDaemon\TelegramBot.PollingDaemon.csproj", "{C191B94B-D4EA-4E62-B63E-7B544EBD4819}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loggers", "Loggers\Loggers.csproj", "{D2A203DE-44DD-4662-8E94-BD6674C26EC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicConverter.MusicSearch.Api", "MusicConverter.MusicSearch.Api\MusicConverter.MusicSearch.Api.csproj", "{D9127560-5ED1-4DBE-932F-B879D89452D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicSearch.Api", "MusicSearch.Api\MusicSearch.Api.csproj", "{D9127560-5ED1-4DBE-932F-B879D89452D6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MusicSearchApi", "MusicSearchApi", "{0BF372B6-7A0D-4B9E-9DF4-FB834902E629}"
 EndProject
@@ -20,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TelegramBot", "TelegramBot"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestClient", "RestClient\RestClient.csproj", "{E4835B63-3572-49DB-BD67-E35AC4613D0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicConverter.MusicSearch.Client", "MusicConverter.MusicSearch.Client\MusicConverter.MusicSearch.Client.csproj", "{6BE31160-CBBE-41E6-8801-48DB613993FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicSearch.Client", "MusicSearch.Client\MusicSearch.Client.csproj", "{6BE31160-CBBE-41E6-8801-48DB613993FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
