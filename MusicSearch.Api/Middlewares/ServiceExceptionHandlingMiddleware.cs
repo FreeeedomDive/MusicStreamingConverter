@@ -19,10 +19,12 @@ public class ServiceExceptionHandlingMiddleware
         catch (MusicSearchApiException exception)
         {
             await WriteExceptionAsync(context, exception, exception.StatusCode);
+            throw;
         }
         catch (Exception exception)
         {
             await WriteExceptionAsync(context, exception, 500);
+            throw;
         }
     }
 
