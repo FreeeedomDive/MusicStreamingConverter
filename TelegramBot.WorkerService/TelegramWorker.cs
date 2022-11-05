@@ -46,7 +46,7 @@ public class TelegramWorker : ITelegramWorker
 
     private Task HandlePollingErrorAsync(ITelegramBotClient client, Exception exception, CancellationToken cts)
     {
-        logger.Error("Telegram polling error", exception);
+        logger.Error(exception, "Telegram polling error");
 
         return Task.CompletedTask;
     }
@@ -83,7 +83,7 @@ public class TelegramWorker : ITelegramWorker
         }
         catch(Exception e)
         {
-            logger.Error("Exception in message handler", e);
+            logger.Error(e, "Exception in message handler");
             if (e is MusicSearchYandexServiceTooManyRequestsException)
             {
                 await SendMessage(chatId, $"Возникла ошибка при обработке\nСкорее всего яндекс просит ввести капчу, так что нужно подождать");
@@ -197,7 +197,7 @@ public class TelegramWorker : ITelegramWorker
         }
         catch(Exception exception)
         {
-            logger.Error("Exception in SendMessage", exception);
+            logger.Error(exception, "Exception in SendMessage");
         }
     }
 

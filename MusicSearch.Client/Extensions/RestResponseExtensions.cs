@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using Loggers;
+using Newtonsoft.Json;
 using RestSharp;
 
 namespace MusicSearch.Client.Extensions;
 
 public static class RestResponseExtensions
 {
-    private static void ThrowIfNotSuccessful(this RestResponse restResponse)
+    private static void ThrowIfNotSuccessful(this RestResponse restResponse, ILogger? logger)
     {
         if (restResponse.IsSuccessful) return;
 
@@ -14,13 +15,14 @@ public static class RestResponseExtensions
             throw new Exception("Content is null");
         }
 
+        logger?.Info(restResponse.Content);
         var exception = JsonConvert.DeserializeObject<Exception>(restResponse.Content);
         throw exception ?? new Exception("Unknown API error");
     }
 
-    public static T TryDeserialize<T>(this RestResponse restResponse)
+    public static T TryDeserialize<T>(this RestResponse restResponse, ILogger? logger = null)
     {
-        restResponse.ThrowIfNotSuccessful();
+        restResponse.ThrowIfNotSuccessful(logger);
         if (restResponse.Content == null)
         {
             throw new Exception("Content is null");

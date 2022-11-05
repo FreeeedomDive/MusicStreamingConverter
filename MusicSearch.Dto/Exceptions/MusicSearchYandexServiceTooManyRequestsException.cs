@@ -1,5 +1,6 @@
 ﻿namespace MusicSearch.Dto.Exceptions;
 
+[Serializable]
 public class MusicSearchYandexServiceTooManyRequestsException : MusicSearchApiException
 {
     public MusicSearchYandexServiceTooManyRequestsException(Exception? baseException = null)

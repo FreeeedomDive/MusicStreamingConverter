@@ -1,4 +1,5 @@
-﻿using MusicSearch.Client.Extensions;
+﻿using Loggers;
+using MusicSearch.Client.Extensions;
 using RestSharp;
 using SpotifyAPI.Web;
 
