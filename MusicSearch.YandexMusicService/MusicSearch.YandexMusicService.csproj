@@ -18,4 +18,8 @@
       </None>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\MusicSearch.Dto\MusicSearch.Dto.csproj" />
+    </ItemGroup>
+
 </Project>

@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using Loggers;
 using MusicSearch.Client;
+using MusicSearch.Dto.Exceptions;
 using SpotifyAPI.Web;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
@@ -83,11 +84,12 @@ public class TelegramWorker : ITelegramWorker
         catch(Exception e)
         {
             logger.Error("Exception in message handler", e);
-            if (e.Message.StartsWith("Unexpected character encountered while parsing value"))
+            if (e is MusicSearchYandexServiceTooManyRequestsException)
             {
                 await SendMessage(chatId, $"Возникла ошибка при обработке\nСкорее всего яндекс просит ввести капчу, так что нужно подождать");
                 return;
             }
+
             await SendMessage(chatId, $"Возникла ошибка при обработке\n{e.Message}");
         }
     }
