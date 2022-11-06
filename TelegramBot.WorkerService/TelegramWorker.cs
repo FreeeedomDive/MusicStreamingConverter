@@ -219,7 +219,7 @@ public class TelegramWorker : ITelegramWorker
 
         return resultConfidence == null
             ? ""
-            : $"Уверенность в найденном результате: {resultConfidence}%"
+            : $"Уверенность в найденном результате: {resultConfidence}%\n"
               + $"Исполнитель: {string.Join(" ", spotifyTrack.Artist?.Name)}\n"
               + $"Название трека: {spotifyTrack.Title}\n"
               + $"Альбом: {spotifyTrack.Album?.Name}";
@@ -234,7 +234,7 @@ public class TelegramWorker : ITelegramWorker
 
         return resultConfidence == null
             ? ""
-            : $"Уверенность в найденном результате: {resultConfidence}%"
+            : $"Уверенность в найденном результате: {resultConfidence}%\n"
               + $"Исполнитель: {string.Join(" ", yandexTrack.Artist?.Name)}\n"
               + $"Название трека: {yandexTrack.Title}\n"
               + $"Альбом: {string.Join(" ", yandexTrack.Album?.Name)}";
