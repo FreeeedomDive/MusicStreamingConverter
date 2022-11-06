@@ -10,21 +10,36 @@ public static class StringComparisonExtensions
         {
             return 0;
         }
-        
-        var result = 0;
 
-        result += stringComparison.Compare(original.Title, foundTrack.Title);
-
-        if (original.Artist != null && foundTrack.Artist != null)
+        var partsComparison = new Dictionary<TrackComparisonPart, int>
         {
-            result += stringComparison.Compare(original.Artist.Name, foundTrack.Artist.Name);
-        }
+            [TrackComparisonPart.TrackTitle] = stringComparison.Compare(original.Title, foundTrack.Title),
+            [TrackComparisonPart.ArtistName] = original.Artist != null && foundTrack.Artist != null
+                ? stringComparison.Compare(original.Artist.Name, foundTrack.Artist.Name)
+                : 0,
+            [TrackComparisonPart.AlbumTitle] = original.Album != null && foundTrack.Album != null
+                ? stringComparison.Compare(original.Album.Name, foundTrack.Album.Name)
+                : 0
+        };
 
-        if (original.Album != null && foundTrack.Album != null)
-        {
-            result += stringComparison.Compare(original.Album.Name, foundTrack.Album.Name);
-        }
+        var total = partsComparison.Keys
+            .Select(comparisonPart => partsComparison[comparisonPart] * ComparisonPartWeights[comparisonPart])
+            .Sum();
 
-        return result / 3;
+        return total / ComparisonPartWeights.Values.Sum();
+    }
+
+    private static readonly Dictionary<TrackComparisonPart, int> ComparisonPartWeights = new()
+    {
+        [TrackComparisonPart.TrackTitle] = 7,
+        [TrackComparisonPart.ArtistName] = 7,
+        [TrackComparisonPart.AlbumTitle] = 1,
+    };
+
+    private enum TrackComparisonPart
+    {
+        TrackTitle,
+        ArtistName,
+        AlbumTitle
     }
 }

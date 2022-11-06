@@ -159,7 +159,8 @@ public class TelegramWorker : ITelegramWorker
         }
 
         var sameSpotifyTrack = searchResults.FirstOrDefault();
-        var spotifyTrackInfo = SpotifyTrackToString(sameSpotifyTrack);
+        var resultConfidence = stringComparison.CompareTracks(track, sameSpotifyTrack);
+        var spotifyTrackInfo = SpotifyTrackToString(sameSpotifyTrack, resultConfidence);
 
         await SendMessage(chatId, $"{trackInfo}\n" +
                                   $"===========\n" +
