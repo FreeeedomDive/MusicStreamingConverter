@@ -117,9 +117,11 @@ public class TelegramWorker : ITelegramWorker
                 $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")}");
         }
 
-        var sameYandexTrack = searchResults.FirstOrDefault();
-        var resultConfidence = stringComparison.CompareTracks(track, sameYandexTrack);
-        var yandexTrackInfo = YandexMusicTrackToString(sameYandexTrack, resultConfidence);
+        var sameYandexTrack = searchResults
+            .Select(x => Convert(x, track))
+            .OrderByDescending(x => x.confidence)
+            .FirstOrDefault();
+        var yandexTrackInfo = YandexMusicTrackToString(sameYandexTrack.track, sameYandexTrack.confidence);
 
         await SendMessage(chatId, $"{trackInfo}\n" +
                                   $"===========\n" +
@@ -128,10 +130,10 @@ public class TelegramWorker : ITelegramWorker
                                   $"===========\n" +
                                   $"Трек в Яндекс.Музыке\n" +
                                   $"{yandexTrackInfo}");
-        if (sameYandexTrack is not null)
+        if (sameYandexTrack.track is not null)
         {
             await SendMessage(chatId,
-                $"https://music.yandex.ru/album/{sameYandexTrack.Album!.Id}/track/{sameYandexTrack.Id}");
+                $"https://music.yandex.ru/album/{sameYandexTrack.track.Album!.Id}/track/{sameYandexTrack.track.Id}");
         }
     }
 
@@ -158,9 +160,11 @@ public class TelegramWorker : ITelegramWorker
                 $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")}");
         }
 
-        var sameSpotifyTrack = searchResults.FirstOrDefault();
-        var resultConfidence = stringComparison.CompareTracks(track, sameSpotifyTrack);
-        var spotifyTrackInfo = SpotifyTrackToString(sameSpotifyTrack, resultConfidence);
+        var sameSpotifyTrack = searchResults
+            .Select(x => Convert(x, track))
+            .OrderByDescending(x => x.confidence)
+            .FirstOrDefault();
+        var spotifyTrackInfo = SpotifyTrackToString(sameSpotifyTrack.track, sameSpotifyTrack.confidence);
 
         await SendMessage(chatId, $"{trackInfo}\n" +
                                   $"===========\n" +
@@ -169,10 +173,10 @@ public class TelegramWorker : ITelegramWorker
                                   $"===========\n" +
                                   $"Трек в спотифае" +
                                   $"\n{spotifyTrackInfo}");
-        if (sameSpotifyTrack is not null)
+        if (sameSpotifyTrack.track is not null)
         {
             await SendMessage(chatId,
-                $"https://open.spotify.com/track/{sameSpotifyTrack.Uri["spotify:track:".Length..]}");
+                $"https://open.spotify.com/track/{sameSpotifyTrack.track.Uri["spotify:track:".Length..]}");
         }
     }
 
@@ -263,6 +267,17 @@ public class TelegramWorker : ITelegramWorker
             correctCount % 10 == 0)
             return $"{count} {manyForm}";
         return correctCount % 10 == 1 ? $"{count} {singleForm}" : $"{count} {severalForm}";
+    }
+
+    private (TrackDto? track, int confidence) Convert(TrackDto? trackDto, TrackDto original)
+    {
+        if (trackDto is null)
+        {
+            return (null, 0);
+        }
+
+        var confidence = stringComparison.CompareTracks(original, trackDto);
+        return (trackDto, confidence);
     }
 
     private readonly ITelegramBotClient telegramBotClient;
