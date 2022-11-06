@@ -26,19 +26,36 @@ public class YandexMusicService : IYandexMusicService
     {
         var result = await yandexMusicApi.Search.TrackAsync(authStorage, query);
 
-        return result.Result.Tracks.Results.Skip(skip).Take(take).Select(TrackToDto).ToArray();
+        return result?.Result?.Tracks?.Results?.Skip(skip).Take(take).Select(TrackToDto).ToArray() ??
+               Array.Empty<TrackDto>();
     }
 
     public async Task<ArtistDto[]> FindArtists(string query, int skip = 0, int take = 10)
     {
         var result = await yandexMusicApi.Search.ArtistAsync(authStorage, query);
-        return result.Result.Artists.Results.Skip(skip).Take(take).Select(ArtistToDto).ToArray()!;
+        return result?
+                   .Result?
+                   .Artists?
+                   .Results?
+                   .Skip(skip)
+                   .Take(take)
+                   .Select(x => ArtistToDto(x)!)
+                   .ToArray()
+               ?? Array.Empty<ArtistDto>();
     }
 
     public async Task<AlbumDto[]> FindAlbums(string query, int skip = 0, int take = 10)
     {
         var result = await yandexMusicApi.Search.AlbumsAsync(authStorage, query);
-        return result.Result.Albums.Results.Skip(skip).Take(take).Select(AlbumToDto).ToArray()!;
+        return result?
+                   .Result?
+                   .Albums?
+                   .Results?
+                   .Skip(skip)
+                   .Take(take)
+                   .Select(x => AlbumToDto(x)!)
+                   .ToArray()
+               ?? Array.Empty<AlbumDto>();
     }
 
     public async Task<TrackDto> GetTrack(string id)
