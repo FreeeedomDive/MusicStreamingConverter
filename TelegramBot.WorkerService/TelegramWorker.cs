@@ -181,9 +181,9 @@ public class TelegramWorker : ITelegramWorker
             return "Не нашли трек в яндекс музыке";
         }
 
-        return $"Исполнители: {string.Join(" ", yandexTrack.Artist)}\n" +
+        return $"Исполнитель: {string.Join(" ", yandexTrack.Artist?.Name)}\n" +
                $"Название трека: {yandexTrack.Title}\n" +
-               $"Альбомы: {string.Join(" ", yandexTrack.Album)}";
+               $"Альбом: {string.Join(" ", yandexTrack.Album?.Name)}";
     }
 
     private async Task SendMessage(long chatId, string message)
