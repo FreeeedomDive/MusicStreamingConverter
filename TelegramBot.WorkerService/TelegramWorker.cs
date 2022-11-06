@@ -102,14 +102,16 @@ public class TelegramWorker : ITelegramWorker
 
         var query = $"{track.Artists.First().Name} {track.Name} {track.Album.Name}";
         var searchResults = await musicSearchClient.YandexMusic.FindTracksAsync(query);
-        searchInfoStrings.Add($"Название + Исполнитель + Альбом - найдено {searchResults.Length} " +
-                              $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")}");
+        searchInfoStrings.Add(
+            "Название + Исполнитель + Альбом - найдено " +
+            $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")}");
         if (searchResults.Length == 0)
         {
             query = $"{track.Artists.First().Name} {track.Name}";
             searchResults = await musicSearchClient.YandexMusic.FindTracksAsync(query);
-            searchInfoStrings.Add($"Название + Исполнитель - найдено {searchResults.Length} " +
-                                  $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")}");
+            searchInfoStrings.Add(
+                "Название + Исполнитель - найдено " +
+                $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")}");
         }
 
         var sameYandexTrack = searchResults.FirstOrDefault();
@@ -139,7 +141,7 @@ public class TelegramWorker : ITelegramWorker
         var searchResults = await musicSearchClient.Spotify.FindTracksAsync(query);
 
         searchInfoStrings.Add(
-            $"Название + Исполнитель + Альбом - найдено {searchResults.Length} " +
+            "Название + Исполнитель + Альбом - найдено " +
             $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")}");
 
         if (searchResults.Length == 0)
@@ -147,8 +149,9 @@ public class TelegramWorker : ITelegramWorker
             query = $"{track.Artist} {track.Title}";
             searchResults = await musicSearchClient.Spotify.FindTracksAsync(query);
 
-            searchInfoStrings.Add($"Название + Исполнитель - найдено {searchResults.Length} " +
-                                  $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")}");
+            searchInfoStrings.Add(
+                "Название + Исполнитель - найдено " +
+                $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")}");
         }
 
         var sameSpotifyTrack = searchResults.FirstOrDefault();
