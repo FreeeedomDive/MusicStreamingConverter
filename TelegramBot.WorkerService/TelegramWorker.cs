@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using Core.Loggers;
 using Core.StringComparison;
+using Core.StringComparison.Extensions;
 using MusicSearch.Client;
 using MusicSearch.Dto.Exceptions;
 using MusicSearch.Dto.Models;
@@ -117,7 +118,8 @@ public class TelegramWorker : ITelegramWorker
         }
 
         var sameYandexTrack = searchResults.FirstOrDefault();
-        var yandexTrackInfo = YandexMusicTrackToString(sameYandexTrack);
+        var resultConfidence = stringComparison.CompareTracks(track, sameYandexTrack);
+        var yandexTrackInfo = YandexMusicTrackToString(sameYandexTrack, resultConfidence);
 
         await SendMessage(chatId, $"{trackInfo}\n" +
                                   $"===========\n" +
@@ -128,7 +130,7 @@ public class TelegramWorker : ITelegramWorker
                                   $"{yandexTrackInfo}");
         if (sameYandexTrack is not null)
         {
-            await SendMessage(chatId, 
+            await SendMessage(chatId,
                 $"https://music.yandex.ru/album/{sameYandexTrack.Album!.Id}/track/{sameYandexTrack.Id}");
         }
     }
@@ -208,28 +210,34 @@ public class TelegramWorker : ITelegramWorker
         return true;
     }
 
-    private static string SpotifyTrackToString(TrackDto? spotifyTrack)
+    private static string SpotifyTrackToString(TrackDto? spotifyTrack, int? resultConfidence = null)
     {
         if (spotifyTrack == null)
         {
             return "Не нашли трек в спотифае";
         }
 
-        return $"Исполнитель: {string.Join(" ", spotifyTrack.Artist?.Name)}\n" +
-               $"Название трека: {spotifyTrack.Title}\n" +
-               $"Альбом: {spotifyTrack.Album?.Name}";
+        return resultConfidence == null
+            ? ""
+            : $"Уверенность в найденном результате: {resultConfidence}%"
+              + $"Исполнитель: {string.Join(" ", spotifyTrack.Artist?.Name)}\n"
+              + $"Название трека: {spotifyTrack.Title}\n"
+              + $"Альбом: {spotifyTrack.Album?.Name}";
     }
 
-    private static string YandexMusicTrackToString(TrackDto? yandexTrack)
+    private static string YandexMusicTrackToString(TrackDto? yandexTrack, int? resultConfidence = null)
     {
         if (yandexTrack == null)
         {
             return "Не нашли трек в яндекс музыке";
         }
 
-        return $"Исполнитель: {string.Join(" ", yandexTrack.Artist?.Name)}\n" +
-               $"Название трека: {yandexTrack.Title}\n" +
-               $"Альбом: {string.Join(" ", yandexTrack.Album?.Name)}";
+        return resultConfidence == null
+            ? ""
+            : $"Уверенность в найденном результате: {resultConfidence}%"
+              + $"Исполнитель: {string.Join(" ", yandexTrack.Artist?.Name)}\n"
+              + $"Название трека: {yandexTrack.Title}\n"
+              + $"Альбом: {string.Join(" ", yandexTrack.Album?.Name)}";
     }
 
     private async Task SendMessage(long chatId, string message)

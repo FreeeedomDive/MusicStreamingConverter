@@ -4,8 +4,13 @@ namespace Core.StringComparison.Extensions;
 
 public static class StringComparisonExtensions
 {
-    public static int CompareTracks(this IStringComparison stringComparison, TrackDto original, TrackDto foundTrack)
+    public static int CompareTracks(this IStringComparison stringComparison, TrackDto original, TrackDto? foundTrack)
     {
+        if (foundTrack == null)
+        {
+            return 0;
+        }
+        
         var result = 0;
 
         result += stringComparison.Compare(original.Title, foundTrack.Title);
