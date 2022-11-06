@@ -107,14 +107,14 @@ public class TelegramWorker : ITelegramWorker
         var searchResults = await musicSearchClient.YandexMusic.FindTracksAsync(query);
         searchInfoStrings.Add(
             "Название + Исполнитель + Альбом - " +
-            $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")} поиска");
+            $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")}");
         if (searchResults.Length == 0)
         {
             query = $"{track.Artist?.Name} {track.Title}";
             searchResults = await musicSearchClient.YandexMusic.FindTracksAsync(query);
             searchInfoStrings.Add(
                 "Название + Исполнитель - " +
-                $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")} поиска");
+                $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")}");
         }
 
         var sameYandexTrack = searchResults.FirstOrDefault();
@@ -146,7 +146,7 @@ public class TelegramWorker : ITelegramWorker
 
         searchInfoStrings.Add(
             "Название + Исполнитель + Альбом - " +
-            $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")} поиска");
+            $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")}");
 
         if (searchResults.Length == 0)
         {
@@ -155,7 +155,7 @@ public class TelegramWorker : ITelegramWorker
 
             searchInfoStrings.Add(
                 "Название + Исполнитель - " +
-                $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")} поиска");
+                $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")}");
         }
 
         var sameSpotifyTrack = searchResults.FirstOrDefault();
@@ -217,12 +217,12 @@ public class TelegramWorker : ITelegramWorker
             return "Не нашли трек в спотифае";
         }
 
-        return resultConfidence == null
-            ? ""
-            : $"Уверенность в найденном результате: {resultConfidence}%\n"
-              + $"Исполнитель: {string.Join(" ", spotifyTrack.Artist?.Name)}\n"
-              + $"Название трека: {spotifyTrack.Title}\n"
-              + $"Альбом: {spotifyTrack.Album?.Name}";
+        return (resultConfidence == null
+                   ? ""
+                   : $"Уверенность в найденном результате: {resultConfidence}%\n")
+               + $"Исполнитель: {string.Join(" ", spotifyTrack.Artist?.Name)}\n"
+               + $"Название трека: {spotifyTrack.Title}\n"
+               + $"Альбом: {spotifyTrack.Album?.Name}";
     }
 
     private static string YandexMusicTrackToString(TrackDto? yandexTrack, int? resultConfidence = null)
@@ -232,12 +232,12 @@ public class TelegramWorker : ITelegramWorker
             return "Не нашли трек в яндекс музыке";
         }
 
-        return resultConfidence == null
-            ? ""
-            : $"Уверенность в найденном результате: {resultConfidence}%\n"
-              + $"Исполнитель: {string.Join(" ", yandexTrack.Artist?.Name)}\n"
-              + $"Название трека: {yandexTrack.Title}\n"
-              + $"Альбом: {string.Join(" ", yandexTrack.Album?.Name)}";
+        return (resultConfidence == null
+                   ? ""
+                   : $"Уверенность в найденном результате: {resultConfidence}%\n")
+               + $"Исполнитель: {string.Join(" ", yandexTrack.Artist?.Name)}\n"
+               + $"Название трека: {yandexTrack.Title}\n"
+               + $"Альбом: {string.Join(" ", yandexTrack.Album?.Name)}";
     }
 
     private async Task SendMessage(long chatId, string message)
