@@ -1,11 +1,11 @@
-﻿using Loggers;
+﻿using Core.Loggers;
 using MusicSearch.Client;
 using Ninject;
-using RestClient;
+using Core.RestClient;
 using Telegram.Bot;
 using TelegramBot.WorkerService;
 using TelegramBot.WorkerService.Builder;
-using ILogger = Loggers.ILogger;
+using ILogger = Core.Loggers.ILogger;
 
 namespace TelegramBot.PollingDaemon.DI;
 

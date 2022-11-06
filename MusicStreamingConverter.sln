@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot.WorkerService",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot.PollingDaemon", "TelegramBot.PollingDaemon\TelegramBot.PollingDaemon.csproj", "{C191B94B-D4EA-4E62-B63E-7B544EBD4819}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loggers", "Loggers\Loggers.csproj", "{D2A203DE-44DD-4662-8E94-BD6674C26EC3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Loggers", "Core.Loggers\Core.Loggers.csproj", "{D2A203DE-44DD-4662-8E94-BD6674C26EC3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicSearch.Api", "MusicSearch.Api\MusicSearch.Api.csproj", "{D9127560-5ED1-4DBE-932F-B879D89452D6}"
 EndProject
@@ -18,11 +18,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{E1AF8FB7-8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TelegramBot", "TelegramBot", "{CDCE237D-05E1-4745-BFA0-908DD52AB16D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestClient", "RestClient\RestClient.csproj", "{E4835B63-3572-49DB-BD67-E35AC4613D0C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.RestClient", "Core.RestClient\Core.RestClient.csproj", "{E4835B63-3572-49DB-BD67-E35AC4613D0C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicSearch.Client", "MusicSearch.Client\MusicSearch.Client.csproj", "{6BE31160-CBBE-41E6-8801-48DB613993FF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicSearch.Dto", "MusicSearch.Dto\MusicSearch.Dto.csproj", "{CE60D96A-7358-4910-80E7-C015DCA4129B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.StringComparison", "Core.StringComparison\Core.StringComparison.csproj", "{FE2D6A8B-BB89-43DA-B6FD-F8F1C5DF0D36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,6 +68,10 @@ Global
 		{CE60D96A-7358-4910-80E7-C015DCA4129B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE60D96A-7358-4910-80E7-C015DCA4129B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE60D96A-7358-4910-80E7-C015DCA4129B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE2D6A8B-BB89-43DA-B6FD-F8F1C5DF0D36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE2D6A8B-BB89-43DA-B6FD-F8F1C5DF0D36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE2D6A8B-BB89-43DA-B6FD-F8F1C5DF0D36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE2D6A8B-BB89-43DA-B6FD-F8F1C5DF0D36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D9127560-5ED1-4DBE-932F-B879D89452D6} = {0BF372B6-7A0D-4B9E-9DF4-FB834902E629}
@@ -77,5 +83,6 @@ Global
 		{E4835B63-3572-49DB-BD67-E35AC4613D0C} = {E1AF8FB7-836B-421D-A348-D18A4D3B1B8D}
 		{6BE31160-CBBE-41E6-8801-48DB613993FF} = {0BF372B6-7A0D-4B9E-9DF4-FB834902E629}
 		{CE60D96A-7358-4910-80E7-C015DCA4129B} = {0BF372B6-7A0D-4B9E-9DF4-FB834902E629}
+		{FE2D6A8B-BB89-43DA-B6FD-F8F1C5DF0D36} = {E1AF8FB7-836B-421D-A348-D18A4D3B1B8D}
 	EndGlobalSection
 EndGlobal

@@ -1,4 +1,4 @@
-﻿using Loggers;
+﻿using Core.Loggers;
 using MusicSearch.Client.Extensions;
 using RestSharp;
 using SpotifyAPI.Web;

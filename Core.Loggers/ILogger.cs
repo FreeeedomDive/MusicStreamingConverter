@@ -1,4 +1,4 @@
-﻿namespace Loggers;
+﻿namespace Core.Loggers;
 
 public interface ILogger
 {

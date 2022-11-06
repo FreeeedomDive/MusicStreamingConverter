@@ -1,6 +1,6 @@
 ﻿using NLog;
 
-namespace Loggers;
+namespace Core.Loggers;
 
 public class NLogger : ILogger
 {

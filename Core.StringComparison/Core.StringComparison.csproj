@@ -7,13 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="KM.Yandex.Music.Api" Version="1.0.1" />
-      <PackageReference Include="RestSharp" Version="108.0.2" />
-      <PackageReference Include="SpotifyAPI.Web" Version="6.2.2" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\Core.Loggers\Core.Loggers.csproj" />
       <ProjectReference Include="..\MusicSearch.Dto\MusicSearch.Dto.csproj" />
     </ItemGroup>
 

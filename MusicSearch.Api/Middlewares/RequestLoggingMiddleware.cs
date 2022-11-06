@@ -1,5 +1,5 @@
-using Loggers;
-using ILogger = Loggers.ILogger;
+using Core.Loggers;
+using ILogger = Core.Loggers.ILogger;
 
 namespace MusicSearch.Api.Middlewares;
 

@@ -12,7 +12,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Loggers\Loggers.csproj" />
+      <ProjectReference Include="..\Core.Loggers\Core.Loggers.csproj" />
+      <ProjectReference Include="..\Core.StringComparison\Core.StringComparison.csproj" />
       <ProjectReference Include="..\MusicSearch.Client\MusicSearch.Client.csproj" />
       <ProjectReference Include="..\MusicSearch.SpotifyService\MusicSearch.SpotifyService.csproj" />
       <ProjectReference Include="..\MusicSearch.YandexMusicService\MusicSearch.YandexMusicService.csproj" />

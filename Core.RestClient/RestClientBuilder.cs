@@ -1,6 +1,6 @@
 ﻿using RestSharp;
 
-namespace RestClient;
+namespace Core.RestClient;
 
 public static class RestClientBuilder
 {

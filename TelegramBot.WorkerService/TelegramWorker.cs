@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
-using Loggers;
+using Core.Loggers;
+using Core.StringComparison;
 using MusicSearch.Client;
 using MusicSearch.Dto.Exceptions;
 using MusicSearch.Dto.Models;
@@ -16,11 +17,13 @@ public class TelegramWorker : ITelegramWorker
     public TelegramWorker(
         ITelegramBotClient telegramBotClient,
         IMusicSearchClient musicSearchClient,
+        IStringComparison stringComparison,
         ILogger logger
     )
     {
         this.telegramBotClient = telegramBotClient;
         this.musicSearchClient = musicSearchClient;
+        this.stringComparison = stringComparison;
         this.logger = logger;
 
         cancellationTokenSource = new CancellationTokenSource();
@@ -256,6 +259,7 @@ public class TelegramWorker : ITelegramWorker
 
     private readonly ITelegramBotClient telegramBotClient;
     private readonly IMusicSearchClient musicSearchClient;
+    private readonly IStringComparison stringComparison;
     private readonly ILogger logger;
 
     private readonly CancellationTokenSource cancellationTokenSource;
