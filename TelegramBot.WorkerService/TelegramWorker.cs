@@ -103,15 +103,15 @@ public class TelegramWorker : ITelegramWorker
         var query = $"{track.Artists.First().Name} {track.Name} {track.Album.Name}";
         var searchResults = await musicSearchClient.YandexMusic.FindTracksAsync(query);
         searchInfoStrings.Add(
-            "Название + Исполнитель + Альбом - найдено " +
-            $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")}");
+            "Название + Исполнитель + Альбом - " +
+            $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")} поиска");
         if (searchResults.Length == 0)
         {
             query = $"{track.Artists.First().Name} {track.Name}";
             searchResults = await musicSearchClient.YandexMusic.FindTracksAsync(query);
             searchInfoStrings.Add(
-                "Название + Исполнитель - найдено " +
-                $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")}");
+                "Название + Исполнитель - " +
+                $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")} поиска");
         }
 
         var sameYandexTrack = searchResults.FirstOrDefault();
@@ -141,8 +141,8 @@ public class TelegramWorker : ITelegramWorker
         var searchResults = await musicSearchClient.Spotify.FindTracksAsync(query);
 
         searchInfoStrings.Add(
-            "Название + Исполнитель + Альбом - найдено " +
-            $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")}");
+            "Название + Исполнитель + Альбом - " +
+            $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")} поиска");
 
         if (searchResults.Length == 0)
         {
@@ -150,8 +150,8 @@ public class TelegramWorker : ITelegramWorker
             searchResults = await musicSearchClient.Spotify.FindTracksAsync(query);
 
             searchInfoStrings.Add(
-                "Название + Исполнитель - найдено " +
-                $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")}");
+                "Название + Исполнитель - " +
+                $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")} поиска");
         }
 
         var sameSpotifyTrack = searchResults.FirstOrDefault();
@@ -213,7 +213,7 @@ public class TelegramWorker : ITelegramWorker
             return "Не нашли трек в спотифае";
         }
 
-        return $"Исполнители: {string.Join(" ", spotifyTrack.Artists.Select(artist => artist.Name))}\n" +
+        return $"Исполнитель: {string.Join(" ", spotifyTrack.Artists.Select(artist => artist.Name))}\n" +
                $"Название трека: {spotifyTrack.Name}\n" +
                $"Альбом: {spotifyTrack.Album.Name}";
     }
