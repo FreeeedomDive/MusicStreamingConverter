@@ -137,7 +137,7 @@ public class TelegramWorker : ITelegramWorker
         var trackInfo = YandexMusicTrackToString(track);
         var searchInfoStrings = new List<string>();
 
-        var query = $"{track.Artist} {track.Title} {track.Album}";
+        var query = $"{track.Artist?.Name} {track.Title} {track.Album?.Name}";
         var searchResults = await musicSearchClient.Spotify.FindTracksAsync(query);
 
         searchInfoStrings.Add(
@@ -146,7 +146,7 @@ public class TelegramWorker : ITelegramWorker
 
         if (searchResults.Length == 0)
         {
-            query = $"{track.Artist} {track.Title}";
+            query = $"{track.Artist?.Name} {track.Title}";
             searchResults = await musicSearchClient.Spotify.FindTracksAsync(query);
 
             searchInfoStrings.Add(
