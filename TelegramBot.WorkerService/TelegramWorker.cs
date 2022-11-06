@@ -1,5 +1,4 @@
-﻿using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Loggers;
 using MusicSearch.Client;
 using MusicSearch.Dto.Exceptions;
@@ -103,12 +102,14 @@ public class TelegramWorker : ITelegramWorker
 
         var query = $"{track.Artists.First().Name} {track.Name} {track.Album.Name}";
         var searchResults = await musicSearchClient.YandexMusic.FindTracksAsync(query);
-        searchInfoStrings.Add($"Название + Исполнитель + Альбом - найдено {searchResults.Length} результатов");
+        searchInfoStrings.Add($"Название + Исполнитель + Альбом - найдено {searchResults.Length} " +
+                              $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")}");
         if (searchResults.Length == 0)
         {
             query = $"{track.Artists.First().Name} {track.Name}";
             searchResults = await musicSearchClient.YandexMusic.FindTracksAsync(query);
-            searchInfoStrings.Add($"Название + Исполнитель - найдено {searchResults.Length} результатов");
+            searchInfoStrings.Add($"Название + Исполнитель - найдено {searchResults.Length} " +
+                                  $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")}");
         }
 
         var sameYandexTrack = searchResults.FirstOrDefault();
@@ -118,12 +119,12 @@ public class TelegramWorker : ITelegramWorker
                                   $"===========\n" +
                                   $"Результаты поиска\n" +
                                   $"{string.Join("\n", searchInfoStrings)}\n" +
-                                  $"===========" +
+                                  $"===========\n" +
                                   $"Трек в Яндекс.Музыке\n" +
                                   $"{yandexTrackInfo}");
         if (sameYandexTrack is not null)
         {
-            await SendMessage(chatId,
+            await SendMessage(chatId, 
                 $"https://music.yandex.ru/album/{sameYandexTrack.Album!.Id}/track/{sameYandexTrack.Id}");
         }
     }
@@ -136,12 +137,18 @@ public class TelegramWorker : ITelegramWorker
 
         var query = $"{track.Artist} {track.Title} {track.Album}";
         var searchResults = await musicSearchClient.Spotify.FindTracksAsync(query);
-        searchInfoStrings.Add($"Название + Исполнитель + Альбом - найдено {searchResults.Length} результатов");
+
+        searchInfoStrings.Add(
+            $"Название + Исполнитель + Альбом - найдено {searchResults.Length} " +
+            $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")}");
+
         if (searchResults.Length == 0)
         {
             query = $"{track.Artist} {track.Title}";
             searchResults = await musicSearchClient.Spotify.FindTracksAsync(query);
-            searchInfoStrings.Add($"Название + Исполнитель - найдено {searchResults.Length} результатов");
+
+            searchInfoStrings.Add($"Название + Исполнитель - найдено {searchResults.Length} " +
+                                  $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")}");
         }
 
         var sameSpotifyTrack = searchResults.FirstOrDefault();
@@ -151,7 +158,7 @@ public class TelegramWorker : ITelegramWorker
                                   $"===========\n" +
                                   $"Результаты поиска\n" +
                                   $"{string.Join("\n", searchInfoStrings)}\n" +
-                                  $"===========" +
+                                  $"===========\n" +
                                   $"Трек в спотифае" +
                                   $"\n{spotifyTrackInfo}");
         if (sameSpotifyTrack is not null)
@@ -233,6 +240,15 @@ public class TelegramWorker : ITelegramWorker
         {
             logger.Error(exception, "Exception in SendMessage");
         }
+    }
+
+    private static string PluralizeString(int count, string singleForm, string severalForm, string manyForm)
+    {
+        var correctCount = count % 100;
+        if (correctCount is >= 10 and <= 20 || correctCount % 10 >= 5 && correctCount % 10 <= 9 ||
+            correctCount % 10 == 0)
+            return $"{count} {manyForm}";
+        return correctCount % 10 == 1 ? $"{count} {singleForm}" : $"{count} {severalForm}";
     }
 
     private readonly ITelegramBotClient telegramBotClient;
