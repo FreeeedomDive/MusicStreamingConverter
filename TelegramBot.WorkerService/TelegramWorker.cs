@@ -4,7 +4,6 @@ using Core.StringComparison;
 using MusicSearch.Client;
 using MusicSearch.Dto.Exceptions;
 using MusicSearch.Dto.Models;
-using SpotifyAPI.Web;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
@@ -103,14 +102,14 @@ public class TelegramWorker : ITelegramWorker
         var trackInfo = SpotifyTrackToString(track);
         var searchInfoStrings = new List<string>();
 
-        var query = $"{track.Artists.First().Name} {track.Name} {track.Album.Name}";
+        var query = $"{track.Artist?.Name} {track.Title} {track.Album?.Name}";
         var searchResults = await musicSearchClient.YandexMusic.FindTracksAsync(query);
         searchInfoStrings.Add(
             "Название + Исполнитель + Альбом - " +
             $"{PluralizeString(searchResults.Length, "результат", "результата", "результатов")} поиска");
         if (searchResults.Length == 0)
         {
-            query = $"{track.Artists.First().Name} {track.Name}";
+            query = $"{track.Artist?.Name} {track.Title}";
             searchResults = await musicSearchClient.YandexMusic.FindTracksAsync(query);
             searchInfoStrings.Add(
                 "Название + Исполнитель - " +
@@ -209,16 +208,16 @@ public class TelegramWorker : ITelegramWorker
         return true;
     }
 
-    private static string SpotifyTrackToString(FullTrack? spotifyTrack)
+    private static string SpotifyTrackToString(TrackDto? spotifyTrack)
     {
         if (spotifyTrack == null)
         {
             return "Не нашли трек в спотифае";
         }
 
-        return $"Исполнитель: {string.Join(" ", spotifyTrack.Artists.Select(artist => artist.Name))}\n" +
-               $"Название трека: {spotifyTrack.Name}\n" +
-               $"Альбом: {spotifyTrack.Album.Name}";
+        return $"Исполнитель: {string.Join(" ", spotifyTrack.Artist?.Name)}\n" +
+               $"Название трека: {spotifyTrack.Title}\n" +
+               $"Альбом: {spotifyTrack.Album?.Name}";
     }
 
     private static string YandexMusicTrackToString(TrackDto? yandexTrack)

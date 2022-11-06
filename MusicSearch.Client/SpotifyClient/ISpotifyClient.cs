@@ -1,14 +1,14 @@
-﻿using SpotifyAPI.Web;
+﻿using MusicSearch.Dto.Models;
 
 namespace MusicSearch.Client.SpotifyClient;
 
 public interface ISpotifyClient
 {
-    public Task<FullTrack[]> FindTracksAsync(string query, int skip = 0, int take = 10);
-    public Task<FullArtist[]> FindArtistsAsync(string query, int skip = 0, int take = 10);
-    public Task<SimpleAlbum[]> FindAlbumsAsync(string query, int skip = 0, int take = 10);
+    public Task<TrackDto[]> FindTracksAsync(string query, int skip = 0, int take = 10);
+    public Task<ArtistDto[]> FindArtistsAsync(string query, int skip = 0, int take = 10);
+    public Task<AlbumDto[]> FindAlbumsAsync(string query, int skip = 0, int take = 10);
     
-    public Task<FullTrack> GetTrackAsync(string id);
-    public Task<FullArtist> GetArtistAsync(string id);
-    public Task<FullAlbum> GetAlbumAsync(string id);
+    public Task<TrackDto> GetTrackAsync(string id);
+    public Task<ArtistDto> GetArtistAsync(string id);
+    public Task<AlbumDto> GetAlbumAsync(string id);
 }

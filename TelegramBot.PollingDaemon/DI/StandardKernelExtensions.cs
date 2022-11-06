@@ -2,6 +2,7 @@
 using MusicSearch.Client;
 using Ninject;
 using Core.RestClient;
+using Core.StringComparison;
 using Telegram.Bot;
 using TelegramBot.WorkerService;
 using TelegramBot.WorkerService.Builder;
@@ -46,6 +47,13 @@ public static class StandardKernelExtensions
     {
         var telegramBot = standardKernel.Get<ITelegramBotBuilder>().BuildClient();
         standardKernel.Bind<ITelegramBotClient>().ToConstant(telegramBot);
+
+        return standardKernel;
+    }
+
+    public static StandardKernel WithStringComparator(this StandardKernel standardKernel)
+    {
+        standardKernel.Bind<IStringComparison>().To<JaccardIndexStringComparison>();
 
         return standardKernel;
     }

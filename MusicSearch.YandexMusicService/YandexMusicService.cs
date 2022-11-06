@@ -109,7 +109,8 @@ public class YandexMusicService : IYandexMusicService
             Id = track.Id,
             Title = track.Title,
             Artist = ArtistToDto(track.Artists?.FirstOrDefault()),
-            Album = AlbumToDto(track.Albums?.FirstOrDefault())
+            Album = AlbumToDto(track.Albums?.FirstOrDefault()),
+            Source = TrackSource.YandexMusic
         };
     }
 

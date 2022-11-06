@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MusicSearch.Dto.Models;
 using MusicSearch.SpotifyService;
 using SpotifyAPI.Web;
 
@@ -14,7 +15,7 @@ public class SpotifySearchController : ControllerBase
     }
 
     [HttpGet("tracks/find")]
-    public async Task<FullTrack[]> FindTrack(
+    public async Task<TrackDto[]> FindTrack(
         [FromQuery] string query,
         [FromQuery] int skip = 0,
         [FromQuery] int take = 10
@@ -24,7 +25,7 @@ public class SpotifySearchController : ControllerBase
     }
 
     [HttpGet("artists/find")]
-    public async Task<FullArtist[]> FindArtistsAsync(
+    public async Task<ArtistDto[]> FindArtistsAsync(
         [FromQuery] string query,
         [FromQuery] int skip = 0,
         [FromQuery] int take = 10
@@ -34,7 +35,7 @@ public class SpotifySearchController : ControllerBase
     }
 
     [HttpGet("albums/find")]
-    public async Task<SimpleAlbum[]> FindAlbumsAsync(
+    public async Task<AlbumDto[]> FindAlbumsAsync(
         [FromQuery] string query,
         [FromQuery] int skip = 0,
         [FromQuery] int take = 10
@@ -44,19 +45,19 @@ public class SpotifySearchController : ControllerBase
     }
 
     [HttpGet("tracks/{id}")]
-    public async Task<FullTrack> GetTrackAsync([FromRoute] string id)
+    public async Task<TrackDto> GetTrackAsync([FromRoute] string id)
     {
         return await spotifyService.GetTrackAsync(id);
     }
 
     [HttpGet("artists/{id}")]
-    public async Task<FullArtist> GetArtistAsync([FromRoute] string id)
+    public async Task<ArtistDto> GetArtistAsync([FromRoute] string id)
     {
         return await spotifyService.GetArtistAsync(id);
     }
 
     [HttpGet("albums/{id}")]
-    public async Task<FullAlbum> GetAlbumAsync([FromRoute] string id)
+    public async Task<AlbumDto> GetAlbumAsync([FromRoute] string id)
     {
         return await spotifyService.GetAlbumAsync(id);
     }
