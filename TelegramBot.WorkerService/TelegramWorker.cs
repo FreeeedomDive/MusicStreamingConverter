@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text;
+using System.Text.RegularExpressions;
 using Loggers;
 using MusicSearch.Client;
 using MusicSearch.Dto.Exceptions;
@@ -60,7 +61,6 @@ public class TelegramWorker : ITelegramWorker
         logger.Info("{Username}: {Message}", message.Chat.Username ?? chatId.ToString(), messageText);
         try
         {
-
             if (messageText == "/start")
             {
                 await SendMessage(chatId, "Ку");
@@ -81,12 +81,13 @@ public class TelegramWorker : ITelegramWorker
 
             await SendMessage(chatId, "Ничего не распарсил");
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             logger.Error(e, "Exception in message handler");
             if (e is MusicSearchYandexServiceTooManyRequestsException)
             {
-                await SendMessage(chatId, $"Возникла ошибка при обработке\nСкорее всего яндекс просит ввести капчу, так что нужно подождать");
+                await SendMessage(chatId,
+                    $"Возникла ошибка при обработке\nСкорее всего яндекс просит ввести капчу, так что нужно подождать");
                 return;
             }
 
@@ -98,15 +99,32 @@ public class TelegramWorker : ITelegramWorker
     {
         var track = await musicSearchClient.Spotify.GetTrackAsync(songId);
         var trackInfo = SpotifyTrackToString(track);
-        var query = $"{track.Artists.First().Name} {track.Name} {track.Album.Name}";
+        var searchInfoStrings = new List<string>();
 
-        var sameYandexTrack = (await musicSearchClient.YandexMusic.FindTracksAsync(query)).FirstOrDefault();
+        var query = $"{track.Artists.First().Name} {track.Name} {track.Album.Name}";
+        var searchResults = await musicSearchClient.YandexMusic.FindTracksAsync(query);
+        searchInfoStrings.Add($"Название + Исполнитель + Альбом - найдено {searchResults.Length} результатов");
+        if (searchResults.Length == 0)
+        {
+            query = $"{track.Artists.First().Name} {track.Name}";
+            searchResults = await musicSearchClient.YandexMusic.FindTracksAsync(query);
+            searchInfoStrings.Add($"Название + Исполнитель - найдено {searchResults.Length} результатов");
+        }
+
+        var sameYandexTrack = searchResults.FirstOrDefault();
         var yandexTrackInfo = YandexMusicTrackToString(sameYandexTrack);
 
-        await SendMessage(chatId, $"{trackInfo}\n===========\nТрек в Яндекс.Музыке\n{yandexTrackInfo}");
+        await SendMessage(chatId, $"{trackInfo}\n" +
+                                  $"===========\n" +
+                                  $"Результаты поиска\n" +
+                                  $"{string.Join("\n", searchInfoStrings)}\n" +
+                                  $"===========" +
+                                  $"Трек в Яндекс.Музыке\n" +
+                                  $"{yandexTrackInfo}");
         if (sameYandexTrack is not null)
         {
-            await SendMessage(chatId, $"https://music.yandex.ru/album/{sameYandexTrack.Album!.Id}/track/{sameYandexTrack.Id}");
+            await SendMessage(chatId,
+                $"https://music.yandex.ru/album/{sameYandexTrack.Album!.Id}/track/{sameYandexTrack.Id}");
         }
     }
 
@@ -114,14 +132,32 @@ public class TelegramWorker : ITelegramWorker
     {
         var track = await musicSearchClient.YandexMusic.GetTrackAsync(songId);
         var trackInfo = YandexMusicTrackToString(track);
+        var searchInfoStrings = new List<string>();
+
         var query = $"{track.Artist} {track.Title} {track.Album}";
-        var sameSpotifyTrack = (await musicSearchClient.Spotify.FindTracksAsync(query)).FirstOrDefault();
+        var searchResults = await musicSearchClient.Spotify.FindTracksAsync(query);
+        searchInfoStrings.Add($"Название + Исполнитель + Альбом - найдено {searchResults.Length} результатов");
+        if (searchResults.Length == 0)
+        {
+            query = $"{track.Artist} {track.Title}";
+            searchResults = await musicSearchClient.Spotify.FindTracksAsync(query);
+            searchInfoStrings.Add($"Название + Исполнитель - найдено {searchResults.Length} результатов");
+        }
+
+        var sameSpotifyTrack = searchResults.FirstOrDefault();
         var spotifyTrackInfo = SpotifyTrackToString(sameSpotifyTrack);
 
-        await SendMessage(chatId, $"{trackInfo}\n===========\nТрек в спотифае\n{spotifyTrackInfo}");
+        await SendMessage(chatId, $"{trackInfo}\n" +
+                                  $"===========\n" +
+                                  $"Результаты поиска\n" +
+                                  $"{string.Join("\n", searchInfoStrings)}\n" +
+                                  $"===========" +
+                                  $"Трек в спотифае" +
+                                  $"\n{spotifyTrackInfo}");
         if (sameSpotifyTrack is not null)
         {
-            await SendMessage(chatId, $"https://open.spotify.com/track/{sameSpotifyTrack.Uri["spotify:track:".Length..]}");
+            await SendMessage(chatId,
+                $"https://open.spotify.com/track/{sameSpotifyTrack.Uri["spotify:track:".Length..]}");
         }
     }
 
@@ -140,7 +176,6 @@ public class TelegramWorker : ITelegramWorker
         }
 
         id = result.Groups[1].Captures[0].Value;
-        Console.WriteLine($"Found id {id}");
 
         return true;
     }
@@ -157,7 +192,6 @@ public class TelegramWorker : ITelegramWorker
         }
 
         id = result.Groups[2].Captures[0].Value;
-        Console.WriteLine($"Found id {id}");
 
         return true;
     }
@@ -195,7 +229,7 @@ public class TelegramWorker : ITelegramWorker
                 text: message,
                 cancellationToken: cancellationTokenSource.Token);
         }
-        catch(Exception exception)
+        catch (Exception exception)
         {
             logger.Error(exception, "Exception in SendMessage");
         }
