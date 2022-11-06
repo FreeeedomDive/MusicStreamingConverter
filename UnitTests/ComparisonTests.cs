@@ -34,7 +34,7 @@ public class Tests
             {
                 Name = "Linkin Park"
             },
-            Title = "Guilty All The Same",
+            Title = "Guilty All the Same (feat. Rakim)",
             Album = new AlbumDto
             {
                 Name = "The Hunting Party"
@@ -47,15 +47,15 @@ public class Tests
             {
                 Name = "Linkin Park"
             },
-            Title = "Guilty All the Same  [Acapella]",
+            Title = "Guilty All the Same (feat. Rakim) - Acapella",
             Album = new AlbumDto
             {
                 Name = "The Hunting Party"
             }
         };
         
-        Console.WriteLine(comparison.CompareTracks(originalTrack, foundTrack1)); // 79
-        Console.WriteLine(comparison.CompareTracks(originalTrack, foundTrack2)); // 82
+        Console.WriteLine(comparison.CompareTracks(originalTrack, foundTrack1)); // 100
+        Console.WriteLine(comparison.CompareTracks(originalTrack, foundTrack2)); // 84
     }
 
     private IStringComparison comparison = null!;

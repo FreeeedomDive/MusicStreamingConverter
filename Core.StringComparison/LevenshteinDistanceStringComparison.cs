@@ -18,7 +18,7 @@ public class LevenshteinDistanceStringComparison : IStringComparison
         }
 
         var matrix = LevenshteinDistanceMatrix(s1, s2);
-        var differenceAtOriginalStringLength = matrix[s1.Length, Math.Min(s1.Length, s2.Length)];
+        var differenceAtOriginalStringLength = matrix[s1.Length, s2.Length];
 
         return (int)(100 - (100d * differenceAtOriginalStringLength / s1.Length));
     }
