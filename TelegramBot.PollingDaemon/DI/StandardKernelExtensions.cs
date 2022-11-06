@@ -53,7 +53,7 @@ public static class StandardKernelExtensions
 
     public static StandardKernel WithStringComparator(this StandardKernel standardKernel)
     {
-        standardKernel.Bind<IStringComparison>().To<JaccardIndexStringComparison>();
+        standardKernel.Bind<IStringComparison>().To<LevenshteinDistanceStringComparison>();
 
         return standardKernel;
     }
