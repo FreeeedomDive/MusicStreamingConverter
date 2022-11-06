@@ -2,12 +2,12 @@
 using Loggers;
 using MusicSearch.Client;
 using MusicSearch.Dto.Exceptions;
+using MusicSearch.Dto.Models;
 using SpotifyAPI.Web;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Yandex.Music.Api.Models;
 
 namespace TelegramBot.WorkerService;
 
@@ -106,7 +106,7 @@ public class TelegramWorker : ITelegramWorker
         await SendMessage(chatId, $"{trackInfo}\n===========\nТрек в Яндекс.Музыке\n{yandexTrackInfo}");
         if (sameYandexTrack is not null)
         {
-            await SendMessage(chatId, $"https://music.yandex.ru/album/{sameYandexTrack.Albums.First().Id}/track/{sameYandexTrack.Id}");
+            await SendMessage(chatId, $"https://music.yandex.ru/album/{sameYandexTrack.Album!.Id}/track/{sameYandexTrack.Id}");
         }
     }
 
@@ -114,7 +114,7 @@ public class TelegramWorker : ITelegramWorker
     {
         var track = await musicSearchClient.YandexMusic.GetTrackAsync(songId);
         var trackInfo = YandexMusicTrackToString(track);
-        var query = $"{track.Artists.First().Name} {track.Title} {track.Albums.First().Title}";
+        var query = $"{track.Artist} {track.Title} {track.Album}";
         var sameSpotifyTrack = (await musicSearchClient.Spotify.FindTracksAsync(query)).FirstOrDefault();
         var spotifyTrackInfo = SpotifyTrackToString(sameSpotifyTrack);
 
@@ -174,16 +174,16 @@ public class TelegramWorker : ITelegramWorker
                $"Альбом: {spotifyTrack.Album.Name}";
     }
 
-    private static string YandexMusicTrackToString(YandexTrack? yandexTrack)
+    private static string YandexMusicTrackToString(TrackDto? yandexTrack)
     {
         if (yandexTrack == null)
         {
             return "Не нашли трек в яндекс музыке";
         }
 
-        return $"Исполнители: {string.Join(" ", yandexTrack.Artists.Select(artist => artist.Name))}\n" +
+        return $"Исполнители: {string.Join(" ", yandexTrack.Artist)}\n" +
                $"Название трека: {yandexTrack.Title}\n" +
-               $"Альбомы: {string.Join(" ", yandexTrack.Albums.Select(artist => artist.Title))}";
+               $"Альбомы: {string.Join(" ", yandexTrack.Album)}";
     }
 
     private async Task SendMessage(long chatId, string message)

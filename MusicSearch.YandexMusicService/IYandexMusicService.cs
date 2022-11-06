@@ -1,14 +1,13 @@
-﻿using Yandex.Music.Api.Models;
+﻿using MusicSearch.Dto.Models;
 
 namespace YandexMusicLibrary;
 
 public interface IYandexMusicService
 {
-    public YandexTrack[] FindTracks(string query, int skip = 0, int take = 10);
-    public YandexArtist[] FindArtists(string query, int skip = 0, int take = 10);
-    public YandexAlbum[] FindAlbums(string query, int skip = 0, int take = 10);
-    
-    public YandexTrack GetTrack(string id);
-    public YandexArtist GetArtist(string id);
-    public YandexAlbum GetAlbum(string id);
+    public Task<TrackDto[]> FindTracks(string query, int skip = 0, int take = 10);
+    public Task<ArtistDto[]> FindArtists(string query, int skip = 0, int take = 10);
+    public Task<AlbumDto[]> FindAlbums(string query, int skip = 0, int take = 10);
+    public Task<TrackDto> GetTrack(string id);
+    public Task<ArtistDto> GetArtist(string id);
+    public Task<AlbumDto> GetAlbum(string id);
 }

@@ -19,7 +19,9 @@ public class Startup
 
         var yandexClientAuthProvider = new YandexMusicLibrary.Auth.AuthProvider();
         var yandexClientBuilder = new YandexMusicBuilder(yandexClientAuthProvider);
-        services.AddSingleton(yandexClientBuilder.BuildClient());
+        var authStorage = yandexClientBuilder.BuildAuthStorage();
+        services.AddSingleton(authStorage);
+        services.AddSingleton(yandexClientBuilder.BuildClient(authStorage).GetAwaiter().GetResult());
         services.AddTransient<IYandexMusicService, YandexMusicService>();
         
         services.AddControllers();

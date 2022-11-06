@@ -1,14 +1,14 @@
-﻿using Yandex.Music.Api.Models;
+﻿using MusicSearch.Dto.Models;
 
 namespace MusicSearch.Client.YandexMusicClient;
 
 public interface IYandexMusicClient
 {
-    public Task<YandexTrack[]> FindTracksAsync(string query, int skip = 0, int take = 10);
-    public Task<YandexArtist[]> FindArtistsAsync(string query, int skip = 0, int take = 10);
-    public Task<YandexAlbum[]> FindAlbumsAsync(string query, int skip = 0, int take = 10);
+    public Task<TrackDto[]> FindTracksAsync(string query, int skip = 0, int take = 10);
+    public Task<ArtistDto[]> FindArtistsAsync(string query, int skip = 0, int take = 10);
+    public Task<AlbumDto[]> FindAlbumsAsync(string query, int skip = 0, int take = 10);
     
-    public Task<YandexTrack> GetTrackAsync(string id);
-    public Task<YandexArtist> GetArtistAsync(string id);
-    public Task<YandexAlbum> GetAlbumAsync(string id);
+    public Task<TrackDto> GetTrackAsync(string id);
+    public Task<ArtistDto> GetArtistAsync(string id);
+    public Task<AlbumDto> GetAlbumAsync(string id);
 }

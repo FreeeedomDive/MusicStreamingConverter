@@ -1,5 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Yandex.Music.Api.Models;
+using MusicSearch.Dto.Models;
+using Yandex.Music.Api.Models.Album;
+using Yandex.Music.Api.Models.Artist;
+using Yandex.Music.Api.Models.Search.Album;
+using Yandex.Music.Api.Models.Search.Artist;
+using Yandex.Music.Api.Models.Search.Track;
+using Yandex.Music.Api.Models.Track;
 using YandexMusicLibrary;
 
 namespace MusicSearch.Api.Controllers;
@@ -14,39 +20,39 @@ public class YandexMusicSearchController
     }
 
     [HttpGet("tracks/find")]
-    public YandexTrack[] FindTrack([FromQuery] string query, [FromQuery] int skip = 0, [FromQuery] int take = 10)
+    public async Task<TrackDto[]> FindTrack([FromQuery] string query, [FromQuery] int skip = 0, [FromQuery] int take = 10)
     {
-        return yandexMusicService.FindTracks(query, skip, take);
+        return await yandexMusicService.FindTracks(query, skip, take);
     }
 
     [HttpGet("artists/find")]
-    public YandexArtist[] FindArtists([FromQuery] string query, [FromQuery] int skip = 0, [FromQuery] int take = 10)
+    public async Task<ArtistDto[]> FindArtists([FromQuery] string query, [FromQuery] int skip = 0, [FromQuery] int take = 10)
     {
-        return yandexMusicService.FindArtists(query, skip, take);
+        return await yandexMusicService.FindArtists(query, skip, take);
     }
 
     [HttpGet("albums/find")]
-    public YandexAlbum[] FindAlbums([FromQuery] string query, [FromQuery] int skip = 0, [FromQuery] int take = 10)
+    public async Task<AlbumDto[]> FindAlbums([FromQuery] string query, [FromQuery] int skip = 0, [FromQuery] int take = 10)
     {
-        return yandexMusicService.FindAlbums(query, skip, take);
+        return await yandexMusicService.FindAlbums(query, skip, take);
     }
 
     [HttpGet("tracks/{id}")]
-    public YandexTrack GetTrack([FromRoute] string id)
+    public async Task<TrackDto> GetTrack([FromRoute] string id)
     {
-        return yandexMusicService.GetTrack(id);
+        return await yandexMusicService.GetTrack(id);
     }
 
     [HttpGet("artists/{id}")]
-    public YandexArtist GetArtist([FromRoute] string id)
+    public async Task<ArtistDto> GetArtist([FromRoute] string id)
     {
-        return yandexMusicService.GetArtist(id);
+        return await yandexMusicService.GetArtist(id);
     }
 
     [HttpGet("albums/{id}")]
-    public YandexAlbum GetAlbum([FromRoute] string id)
+    public async Task<AlbumDto> GetAlbum([FromRoute] string id)
     {
-        return yandexMusicService.GetAlbum(id);
+        return await yandexMusicService.GetAlbum(id);
     }
 
     private readonly IYandexMusicService yandexMusicService;
