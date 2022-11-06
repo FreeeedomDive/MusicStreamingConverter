@@ -107,7 +107,7 @@ public class YandexMusicService : IYandexMusicService
         return new TrackDto
         {
             Id = track.Id,
-            Title = track.Title,
+            Title = track.Title + (track.Version ?? ""),
             Artist = ArtistToDto(track.Artists?.FirstOrDefault()),
             Album = AlbumToDto(track.Albums?.FirstOrDefault()),
             Source = TrackSource.YandexMusic
