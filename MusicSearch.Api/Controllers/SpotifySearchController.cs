@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MusicSearch.Dto.Models;
 using MusicSearch.SpotifyService;
-using SpotifyAPI.Web;
 
 namespace MusicSearch.Api.Controllers;
 
@@ -61,6 +60,6 @@ public class SpotifySearchController : ControllerBase
     {
         return await spotifyService.GetAlbumAsync(id);
     }
-    
+
     private readonly ISpotifyService spotifyService;
 }
