@@ -11,6 +11,9 @@ public static class Program
     {
         return Host
             .CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>().UseUrls("https://*:3280");
+            });
     }
 }
