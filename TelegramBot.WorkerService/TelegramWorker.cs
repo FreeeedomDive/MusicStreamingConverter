@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using Core.Loggers;
 using Core.StringComparison;
 using Core.StringComparison.Extensions;
 using MusicSearch.Client;
@@ -9,6 +8,7 @@ using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using TelemetryApp.Api.Client.Log;
 
 namespace TelegramBot.WorkerService;
 
@@ -18,7 +18,7 @@ public class TelegramWorker : ITelegramWorker
         ITelegramBotClient telegramBotClient,
         IMusicSearchClient musicSearchClient,
         IStringComparison stringComparison,
-        ILogger logger
+        ILoggerClient logger
     )
     {
         this.telegramBotClient = telegramBotClient;
@@ -47,11 +47,9 @@ public class TelegramWorker : ITelegramWorker
         await Task.Delay(-1, cancellationTokenSource.Token);
     }
 
-    private Task HandlePollingErrorAsync(ITelegramBotClient client, Exception exception, CancellationToken cts)
+    private async Task HandlePollingErrorAsync(ITelegramBotClient client, Exception exception, CancellationToken cts)
     {
-        logger.Error(exception, "Telegram polling error");
-
-        return Task.CompletedTask;
+        await logger.ErrorAsync(exception, "Telegram polling error");
     }
 
     private async Task HandleUpdateAsync(ITelegramBotClient client, Update update, CancellationToken cts)
@@ -60,7 +58,7 @@ public class TelegramWorker : ITelegramWorker
             return;
 
         var chatId = message.Chat.Id;
-        logger.Info("{Username}: {Message}", message.Chat.Username ?? chatId.ToString(), messageText);
+        await logger.InfoAsync("{Username}: {Message}", message.Chat.Username ?? chatId.ToString(), messageText);
         try
         {
             if (messageText == "/start")
@@ -85,7 +83,7 @@ public class TelegramWorker : ITelegramWorker
         }
         catch (Exception e)
         {
-            logger.Error(e, "Exception in message handler");
+            await logger.ErrorAsync(e, "Exception in message handler");
             if (e is MusicSearchYandexServiceTooManyRequestsException)
             {
                 await SendMessage(chatId,
@@ -256,7 +254,7 @@ public class TelegramWorker : ITelegramWorker
         }
         catch (Exception exception)
         {
-            logger.Error(exception, "Exception in SendMessage");
+            await logger.ErrorAsync(exception, "Exception in SendMessage");
         }
     }
 
@@ -283,7 +281,7 @@ public class TelegramWorker : ITelegramWorker
     private readonly ITelegramBotClient telegramBotClient;
     private readonly IMusicSearchClient musicSearchClient;
     private readonly IStringComparison stringComparison;
-    private readonly ILogger logger;
+    private readonly ILoggerClient logger;
 
     private readonly CancellationTokenSource cancellationTokenSource;
 }

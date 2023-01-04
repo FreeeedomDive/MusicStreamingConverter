@@ -8,10 +8,11 @@
 
     <ItemGroup>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+        <PackageReference Include="Xdd.TelemetryApp.Api.Client" Version="1.0.4" />
+        <PackageReference Include="Xdd.TelemetryApp.Api.Utilities" Version="1.0.4" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Core.Loggers\Core.Loggers.csproj" />
       <ProjectReference Include="..\MusicSearch.SpotifyService\MusicSearch.SpotifyService.csproj" />
       <ProjectReference Include="..\MusicSearch.YandexMusicService\MusicSearch.YandexMusicService.csproj" />
       <ProjectReference Include="..\MusicSearch.SpotifyService\MusicSearch.SpotifyService.csproj" />
