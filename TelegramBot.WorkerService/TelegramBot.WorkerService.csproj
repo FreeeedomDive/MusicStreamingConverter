@@ -7,12 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
       <PackageReference Include="Telegram.Bot" Version="18.0.0" />
-      <PackageReference Include="Xdd.TelemetryApp.Api.Client" Version="1.0.4" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Core.Loggers\Core.Loggers.csproj" />
       <ProjectReference Include="..\Core.StringComparison\Core.StringComparison.csproj" />
       <ProjectReference Include="..\MusicSearch.Client\MusicSearch.Client.csproj" />
       <ProjectReference Include="..\MusicSearch.SpotifyService\MusicSearch.SpotifyService.csproj" />

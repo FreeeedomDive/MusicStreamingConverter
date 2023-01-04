@@ -1,15 +1,25 @@
-﻿using Core.RestClient;
-using Core.StringComparison;
+﻿using Core.Loggers;
 using MusicSearch.Client;
 using Ninject;
+using Core.RestClient;
+using Core.StringComparison;
 using Telegram.Bot;
 using TelegramBot.WorkerService;
 using TelegramBot.WorkerService.Builder;
+using ILogger = Core.Loggers.ILogger;
 
 namespace TelegramBot.PollingDaemon.DI;
 
 public static class StandardKernelExtensions
 {
+    public static StandardKernel WithLogger(this StandardKernel ninjectKernel)
+    {
+        var logger = NLogger.Build("Default");
+        ninjectKernel.Bind<ILogger>().ToConstant(logger);
+
+        return ninjectKernel;
+    }
+
     public static StandardKernel WithAuthProviders(this StandardKernel standardKernel)
     {
         standardKernel.Bind<WorkerService.Auth.IAuthProvider>().To<WorkerService.Auth.AuthProvider>();

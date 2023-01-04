@@ -13,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Core.Loggers\Core.Loggers.csproj" />
       <ProjectReference Include="..\MusicSearch.Dto\MusicSearch.Dto.csproj" />
     </ItemGroup>
 
