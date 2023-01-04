@@ -15,8 +15,8 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services
-            .ConfigureLoggerClient("MusicSearch", "MusicSearch.Api")
-            .ConfigureApiTelemetryClient("MusicSearch", "MusicSearch.Api");
+            .ConfigureLoggerClient("MusicStreamingConverter", "MusicSearch.Api")
+            .ConfigureApiTelemetryClient("MusicStreamingConverter", "MusicSearch.Api");
         
         var spotifyClientAuthProvider = new AuthProvider();
         var spotifyClientBuilder = new SpotifyClientBuilder(spotifyClientAuthProvider);
