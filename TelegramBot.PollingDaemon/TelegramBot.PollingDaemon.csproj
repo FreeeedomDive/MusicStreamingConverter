@@ -10,10 +10,10 @@
     <ItemGroup>
       <PackageReference Include="Ninject" Version="3.3.6" />
       <PackageReference Include="NLog" Version="5.0.4" />
+      <PackageReference Include="Xdd.TelemetryApp.Api.Utilities" Version="1.0.4" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Core.Loggers\Core.Loggers.csproj" />
       <ProjectReference Include="..\MusicSearch.Client\MusicSearch.Client.csproj" />
       <ProjectReference Include="..\MusicSearch.SpotifyService\MusicSearch.SpotifyService.csproj" />
       <ProjectReference Include="..\MusicSearch.Client\MusicSearch.Client.csproj" />
