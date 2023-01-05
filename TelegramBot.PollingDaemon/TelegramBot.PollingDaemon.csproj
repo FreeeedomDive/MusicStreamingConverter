@@ -10,7 +10,7 @@
     <ItemGroup>
       <PackageReference Include="Ninject" Version="3.3.6" />
       <PackageReference Include="NLog" Version="5.0.4" />
-      <PackageReference Include="Xdd.TelemetryApp.Api.Utilities" Version="1.0.6" />
+      <PackageReference Include="Xdd.TelemetryApp.Api.Utilities" Version="1.0.7" />
     </ItemGroup>
 
     <ItemGroup>
