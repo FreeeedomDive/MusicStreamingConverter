@@ -1,0 +1,23 @@
+﻿FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+WORKDIR /app
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /src
+COPY ["Core.RestClient/Core.RestClient.csproj", "Core.RestClient/"]
+COPY ["Core.StringComparison/Core.StringComparison.csproj", "Core.StringComparison/"]
+COPY ["MusicSearch.Client/MusicSearch.Client.csproj", "MusicSearch.Client/"]
+COPY ["MusicSearch.Dto/MusicSearch.Dto.csproj", "MusicSearch.Dto/"]
+COPY ["TelegramBot.PollingDaemon/TelegramBot.PollingDaemon.csproj", "TelegramBot.PollingDaemon/"]
+COPY ["TelegramBot.WorkerService/TelegramBot.WorkerService.csproj", "TelegramBot.WorkerService/"]
+RUN dotnet restore "TelegramBot.PollingDaemon/TelegramBot.PollingDaemon.csproj"
+COPY . .
+WORKDIR "/src/TelegramBot.PollingDaemon"
+RUN dotnet build "TelegramBot.PollingDaemon.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "TelegramBot.PollingDaemon.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "TelegramBot.PollingDaemon.dll"]

@@ -13,12 +13,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Auth\yandexAuth.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\MusicSearch.Dto\MusicSearch.Dto.csproj" />
     </ItemGroup>
 

@@ -8,8 +8,8 @@
 
     <ItemGroup>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-        <PackageReference Include="Xdd.TelemetryApp.Api.Client" Version="1.0.9" />
-        <PackageReference Include="Xdd.TelemetryApp.Api.Utilities" Version="1.0.9" />
+        <PackageReference Include="Xdd.TelemetryApp.Api.Client" Version="1.0.10" />
+        <PackageReference Include="Xdd.TelemetryApp.Api.Utilities" Version="1.0.10" />
     </ItemGroup>
 
     <ItemGroup>
@@ -26,6 +26,16 @@
       <None Update="startProduction.bat">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Include="Settings\settings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\.dockerignore">
+        <Link>.dockerignore</Link>
+        <DependentUpon>Dockerfile</DependentUpon>
+      </Content>
     </ItemGroup>
 
 </Project>

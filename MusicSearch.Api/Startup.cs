@@ -3,6 +3,7 @@ using MusicSearch.SpotifyService;
 using MusicSearch.SpotifyService.Auth;
 using MusicSearch.SpotifyService.Builder;
 using MusicSearch.Api.Middlewares;
+using MusicSearch.Api.Settings;
 using TelemetryApp.Utilities.Extensions;
 using TelemetryApp.Utilities.Middlewares;
 using YandexMusicLibrary;
@@ -14,9 +15,8 @@ public class Startup
 {
     public void ConfigureServices(IServiceCollection services)
     {
-        services
-            .ConfigureLoggerClient("MusicStreamingConverter", "MusicSearch.Api")
-            .ConfigureApiTelemetryClient("MusicStreamingConverter", "MusicSearch.Api");
+        var appSettings = new SettingsProvider().GetSettings();
+        services.ConfigureTelemetryClientWithLogger("MusicStreamingConverter", "MusicSearch.Api", appSettings.TelemetryApiUrl);
         
         var spotifyClientAuthProvider = new AuthProvider();
         var spotifyClientBuilder = new SpotifyClientBuilder(spotifyClientAuthProvider);

@@ -10,7 +10,7 @@
     <ItemGroup>
       <PackageReference Include="Ninject" Version="3.3.6" />
       <PackageReference Include="NLog" Version="5.0.4" />
-      <PackageReference Include="Xdd.TelemetryApp.Api.Utilities" Version="1.0.9" />
+      <PackageReference Include="Xdd.TelemetryApp.Api.Utilities" Version="1.0.10" />
     </ItemGroup>
 
     <ItemGroup>
@@ -23,8 +23,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="NLog.config">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <None Update="Auth\telegramAuth.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Settings\settings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>
 

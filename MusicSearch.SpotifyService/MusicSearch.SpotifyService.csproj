@@ -12,12 +12,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Auth\spotifyAuth.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\MusicSearch.Dto\MusicSearch.Dto.csproj" />
     </ItemGroup>
 

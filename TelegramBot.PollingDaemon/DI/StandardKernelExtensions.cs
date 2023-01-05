@@ -24,9 +24,9 @@ public static class StandardKernelExtensions
         return standardKernel;
     }
 
-    public static StandardKernel WithApiClient(this StandardKernel standardKernel)
+    public static StandardKernel WithApiClient(this StandardKernel standardKernel, string? apiUrl = null)
     {
-        var restClient = RestClientBuilder.BuildRestClient("https://localhost:3280", false);
+        var restClient = RestClientBuilder.BuildRestClient(apiUrl ?? "https://localhost:3280", false);
         standardKernel.Bind<RestSharp.RestClient>().ToConstant(restClient);
         standardKernel.Bind<IMusicSearchClient>().To<MusicSearchClient>();
 

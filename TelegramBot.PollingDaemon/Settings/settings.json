@@ -1,0 +1,4 @@
+{
+  "TelemetryApiUrl": "https://localhost:6651",
+  "MusicSearchApiUrl": "https://localhost:3280"
+}

@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  musicsearchapi:
+    image: musicsearchapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/certificate/https/certificate.pfx
+      - ASPNETCORE_KESTREL__Certificates__Default__Password=aspnet
+    build:
+      dockerfile: DockerfileMusicSearchApi
+    ports:
+      - "3280:3280"
+        
+  telegrampollingdaemon:
+    image: telegrampollingdaemon
+    build:
+      dockerfile: DockerfileTelegramPollingDaemon

@@ -8,6 +8,6 @@ public class JaccardIndexStringComparison : IStringComparison
     {
         var matchingSymbolsCount = original.ToLower().GetMatchingSymbolsCount(secondString.ToLower());
 
-        return (int)(100d * matchingSymbolsCount / (original.Length + secondString.Length - matchingSymbolsCount));
+        return Math.Max(0, (int)(100d * matchingSymbolsCount / (original.Length + secondString.Length - matchingSymbolsCount)));
     }
 }
