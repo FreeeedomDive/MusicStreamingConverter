@@ -13,7 +13,7 @@ public class Tests
     }
 
     [Test]
-    public void Test1()
+    public void Test_CompareTwoTracks()
     {
         var originalTrack = new TrackDto
         { 
@@ -54,8 +54,7 @@ public class Tests
             }
         };
         
-        Console.WriteLine(comparison.CompareTracks(originalTrack, foundTrack1)); // 100
-        Console.WriteLine(comparison.CompareTracks(originalTrack, foundTrack2)); // 84
+        Assert.That(comparison.CompareTracks(originalTrack, foundTrack1), Is.GreaterThan(comparison.CompareTracks(originalTrack, foundTrack2)));
     }
 
     private IStringComparison comparison = null!;
