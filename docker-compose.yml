@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  musicsearchapi:
+  MusicSearchApi:
     image: musicsearchapi
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
@@ -11,8 +11,12 @@ services:
       dockerfile: DockerfileMusicSearchApi
     ports:
       - "3280:3280"
-        
-  telegrampollingdaemon:
+
+  TelegramPollingDaemon:
     image: telegrampollingdaemon
     build:
       dockerfile: DockerfileTelegramPollingDaemon
+
+networks:
+  default:
+    name: MusicStreamingConverterNetwork
