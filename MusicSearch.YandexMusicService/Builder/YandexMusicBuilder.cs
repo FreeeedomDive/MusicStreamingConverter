@@ -21,11 +21,12 @@ public class YandexMusicBuilder : IYandexMusicBuilder
 
     public async Task<YandexMusicApi> BuildClient(AuthStorage authStorage)
     {
-        var auth = authProvider.GetAuth();
-        var api = new YandexMusicApi();
-        await api.User.AuthorizeAsync(authStorage, auth.Login, auth.Password);
+        // now it works without auth
+        // var auth = authProvider.GetAuth();
+        // var api = new YandexMusicApi();
+        // await api.User.AuthorizeAsync(authStorage, auth.Login, auth.Password);
 
-        return api;
+        return new YandexMusicApi();
     }
 
     private readonly IAuthProvider authProvider;

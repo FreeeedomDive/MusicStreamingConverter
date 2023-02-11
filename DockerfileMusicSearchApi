@@ -1,26 +1,23 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
-WORKDIR /app
-
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+﻿FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /certificate
 RUN dotnet dev-certs https --clean
 RUN dotnet dev-certs https -ep ./https/certificate.pfx -p aspnet
 RUN dotnet dev-certs https --trust
+
 WORKDIR /src
 COPY ["MusicSearch.Api/MusicSearch.Api.csproj", "MusicSearch.Api/"]
 COPY ["MusicSearch.Dto/MusicSearch.Dto.csproj", "MusicSearch.Dto/"]
 COPY ["MusicSearch.SpotifyService/MusicSearch.SpotifyService.csproj", "MusicSearch.SpotifyService/"]
 COPY ["MusicSearch.YandexMusicService/MusicSearch.YandexMusicService.csproj", "MusicSearch.YandexMusicService/"]
+
 RUN dotnet restore "MusicSearch.Api/MusicSearch.Api.csproj"
 COPY . .
-WORKDIR "/src/MusicSearch.Api"
-RUN dotnet build "MusicSearch.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
 WORKDIR "/src/MusicSearch.Api"
 RUN dotnet publish "MusicSearch.Api.csproj" -c Release -o /app/publish
 
-FROM base AS final
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
 WORKDIR /app
 COPY --from=build /certificate /certificate
 COPY --from=publish /app/publish .

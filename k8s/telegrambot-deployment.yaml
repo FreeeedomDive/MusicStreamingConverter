@@ -1,0 +1,17 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: telegrambot-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: telegrambot
+  template:
+    metadata:
+      labels:
+        app: telegrambot
+    spec:
+      containers:
+        - name: telegrambot
+          image: localhost:5000/telegrampollingdaemon:{{TAG_NUMBER}}
