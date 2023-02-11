@@ -1,0 +1,38 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: musicsearchapi-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: musicsearchapi
+  template:
+    metadata:
+      labels:
+        app: musicsearchapi
+    spec:
+      containers:
+        - name: musicsearchapi
+          image: localhost:5000/musicsearchapi
+          env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: Production
+          - name: ASPNETCORE_Kestrel__Certificates__Default__Path
+            value: /certificate/https/certificate.pfx
+          - name: ASPNETCORE_KESTREL__Certificates__Default__Password
+            value: aspnet
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: musicsearchapi-clusterip-service
+spec:
+  type: ClusterIP
+  selector:
+    app: musicsearchapi
+  ports:
+    - name: musicsearchapi
+      protocol: TCP
+      port: 3280
+      targetPort: 3280

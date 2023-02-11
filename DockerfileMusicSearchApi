@@ -5,7 +5,10 @@ RUN dotnet dev-certs https -ep ./https/certificate.pfx -p aspnet
 RUN dotnet dev-certs https --trust
 
 WORKDIR /src
-COPY /*/*.csproj ./
+COPY ["MusicSearch.Api/MusicSearch.Api.csproj", "MusicSearch.Api/"]
+COPY ["MusicSearch.Dto/MusicSearch.Dto.csproj", "MusicSearch.Dto/"]
+COPY ["MusicSearch.SpotifyService/MusicSearch.SpotifyService.csproj", "MusicSearch.SpotifyService/"]
+COPY ["MusicSearch.YandexMusicService/MusicSearch.YandexMusicService.csproj", "MusicSearch.YandexMusicService/"]
 
 RUN dotnet restore "MusicSearch.Api/MusicSearch.Api.csproj"
 COPY . .
