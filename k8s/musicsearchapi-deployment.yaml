@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: musicsearchapi
-          image: localhost:5000/musicsearchapi
+          image: localhost:5000/musicsearchapi:{{TAG_NUMBER}}
           env:
           - name: ASPNETCORE_ENVIRONMENT
             value: Production

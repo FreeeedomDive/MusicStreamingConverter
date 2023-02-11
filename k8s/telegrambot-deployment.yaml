@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
         - name: telegrambot
-          image: localhost:5000/telegrampollingdaemon
+          image: localhost:5000/telegrampollingdaemon:{{TAG_NUMBER}}
