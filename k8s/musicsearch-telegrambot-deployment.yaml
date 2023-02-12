@@ -1,0 +1,17 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: musicsearch-telegrambot-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: musicsearchtelegrambot
+  template:
+    metadata:
+      labels:
+        app: musicsearchtelegrambot
+    spec:
+      containers:
+        - name: musicsearchtelegrambot
+          image: localhost:5000/musicsearchtelegrambot:{{TAG_NUMBER}}

@@ -1,7 +1,7 @@
 ﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: musicsearchapi-deployment
+  name: musicsearch-api-deployment
 spec:
   replicas: 1
   selector:
