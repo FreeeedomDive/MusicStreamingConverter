@@ -4,6 +4,7 @@ using Core.StringComparison.Extensions;
 using MusicSearch.Client;
 using MusicSearch.Dto.Exceptions;
 using MusicSearch.Dto.Models;
+using RestSharp;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
@@ -181,28 +182,38 @@ public class TelegramWorker : ITelegramWorker
     private static bool IsSpotifyLink(string message, out string? id)
     {
         id = null;
-        var regexes = new[]
-        {
-            new Regex(@"https://open.spotify.com/track/(.*)"),
-            new Regex(@"https://spotify.link/(.*)")
-        };
+        var newRegex = new Regex(@"https://spotify.link/(.*)");
+        var oldRegex = new Regex(@"https://open.spotify.com/track/(.*)");
         var hasBadSymbols = message.Contains("?si=", StringComparison.Ordinal);
         var maxLinkLength = hasBadSymbols ? message.IndexOf("?si=", StringComparison.Ordinal) : message.Length;
         var link = message[..maxLinkLength];
 
-        foreach (var regex in regexes)
+        if (newRegex.Match(link).Success)
         {
-            var match = regex.Match(link);
-            if (!match.Success)
-            {
-                continue;
-            }
-            
-            id = match.Groups[1].Captures[0].Value;
+            id = GetIdFromNewLink(link);
             return true;
         }
 
-        return false;
+        var match = oldRegex.Match(link);
+        if (!match.Success)
+        {
+            return false;
+        }
+            
+        id = match.Groups[1].Captures[0].Value;
+        return true;
+    }
+
+    private static string GetIdFromNewLink(string link)
+    {
+        var htmlResponse = new RestClient().GetAsync(new RestRequest(link)).GetAwaiter().GetResult().Content!;
+        const string leftRange = "href=\"https://open.spotify.com/track/";
+        const string rightRange = "?si=";
+        var leftIndex = htmlResponse.IndexOf(leftRange, StringComparison.Ordinal) + leftRange.Length;
+        var rightIndex = htmlResponse.IndexOf(rightRange, StringComparison.Ordinal) + rightRange.Length;
+        var id = htmlResponse.Substring(leftIndex, rightIndex - leftIndex);
+
+        return id;
     }
 
     private static bool IsYandexMusicLink(string message, out string? id)
