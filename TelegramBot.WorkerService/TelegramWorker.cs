@@ -181,20 +181,28 @@ public class TelegramWorker : ITelegramWorker
     private static bool IsSpotifyLink(string message, out string? id)
     {
         id = null;
-        var regex = new Regex(@"https://open.spotify.com/track/(.*)");
+        var regexes = new[]
+        {
+            new Regex(@"https://open.spotify.com/track/(.*)"),
+            new Regex(@"https://spotify.link/(.*)")
+        };
         var hasBadSymbols = message.Contains("?si=", StringComparison.Ordinal);
         var maxLinkLength = hasBadSymbols ? message.IndexOf("?si=", StringComparison.Ordinal) : message.Length;
         var link = message[..maxLinkLength];
-        var result = regex.Match(link);
 
-        if (!result.Success)
+        foreach (var regex in regexes)
         {
-            return false;
+            var match = regex.Match(link);
+            if (!match.Success)
+            {
+                continue;
+            }
+            
+            id = match.Groups[1].Captures[0].Value;
+            return true;
         }
 
-        id = result.Groups[1].Captures[0].Value;
-
-        return true;
+        return false;
     }
 
     private static bool IsYandexMusicLink(string message, out string? id)
