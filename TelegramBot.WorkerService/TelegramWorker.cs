@@ -59,32 +59,49 @@ public class TelegramWorker : ITelegramWorker
             return;
 
         var chatId = message.Chat.Id;
-        await logger.InfoAsync("{Username}: {Message}", message.Chat.Username ?? chatId.ToString(), messageText);
         try
         {
             if (messageText == "/start")
             {
-                await SendMessage(chatId, "Ку");
+                await SendMessage(chatId,
+                    "Этот бот позволяет искать треки в стриминговых сервисах. " +
+                    "Например, получив ссылку на трек в Спотифае, я попытаюсь его найти в Яндекс.Музыке и наоборот. " +
+                    "Поддерживаются только эти два сервиса.");
                 return;
             }
 
             if (IsSpotifyLink(messageText, out var spotifyId) && spotifyId is not null)
             {
                 await HandleSpotifyLink(chatId, spotifyId);
+                await logger.InfoAsync(
+                    "Successful convert from Spotify\n{Username}: {Message}",
+                    message.Chat.Username ?? chatId.ToString(), messageText
+                );
                 return;
             }
 
             if (IsYandexMusicLink(messageText, out var yandexSongId) && yandexSongId is not null)
             {
                 await HandleYandexMusicLink(chatId, yandexSongId);
+                await logger.InfoAsync(
+                    "Successful convert from Yandex\n{Username}: {Message}",
+                    message.Chat.Username ?? chatId.ToString(), messageText
+                );
                 return;
             }
-
+            await logger.WarnAsync(
+                "Unsuccessful convert - can not parse link\n{Username}: {Message}",
+                message.Chat.Username ?? chatId.ToString(), messageText
+            );
             await SendMessage(chatId, "Ничего не распарсил");
         }
         catch (Exception e)
         {
-            await logger.ErrorAsync(e, "Exception in message handler");
+            await logger.ErrorAsync(
+                e,
+                "Unsuccessful convert - exception\n{Username}: {Message}",
+                message.Chat.Username ?? chatId.ToString(), messageText
+            );
             if (e is MusicSearchYandexServiceTooManyRequestsException)
             {
                 await SendMessage(chatId,
@@ -199,7 +216,7 @@ public class TelegramWorker : ITelegramWorker
         {
             return false;
         }
-            
+
         id = match.Groups[1].Captures[0].Value;
         return true;
     }
