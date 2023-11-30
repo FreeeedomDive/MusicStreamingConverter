@@ -23,17 +23,45 @@ public static class StringComparisonExtensions
         };
 
         var total = partsComparison.Keys
-            .Select(comparisonPart => partsComparison[comparisonPart] * ComparisonPartWeights[comparisonPart])
+            .Select(comparisonPart => partsComparison[comparisonPart] * ComparisonPartWeightsForTracks[comparisonPart])
             .Sum();
 
-        return total / ComparisonPartWeights.Values.Sum();
+        return total / ComparisonPartWeightsForTracks.Values.Sum();
     }
 
-    private static readonly Dictionary<TrackComparisonPart, int> ComparisonPartWeights = new()
+    public static int CompareAlbums(this IStringComparison stringComparison, AlbumDto original, AlbumDto? foundAlbum)
+    {
+        if (foundAlbum == null)
+        {
+            return 0;
+        }
+
+        var partsComparison = new Dictionary<TrackComparisonPart, int>
+        {
+            [TrackComparisonPart.ArtistName] = original.Artist != null && foundAlbum.Artist != null
+                ? stringComparison.Compare(original.Artist.Name, foundAlbum.Artist.Name)
+                : 0,
+            [TrackComparisonPart.AlbumTitle] = stringComparison.Compare(original.Name, foundAlbum.Name),
+        };
+
+        var total = partsComparison.Keys
+                                   .Select(comparisonPart => partsComparison[comparisonPart] * ComparisonPartWeightsForAlbums[comparisonPart])
+                                   .Sum();
+
+        return total / ComparisonPartWeightsForAlbums.Values.Sum();
+    }
+
+    private static readonly Dictionary<TrackComparisonPart, int> ComparisonPartWeightsForTracks = new()
     {
         [TrackComparisonPart.TrackTitle] = 7,
         [TrackComparisonPart.ArtistName] = 7,
         [TrackComparisonPart.AlbumTitle] = 1,
+    };
+
+    private static readonly Dictionary<TrackComparisonPart, int> ComparisonPartWeightsForAlbums = new()
+    {
+        [TrackComparisonPart.ArtistName] = 7,
+        [TrackComparisonPart.AlbumTitle] = 7,
     };
 
     private enum TrackComparisonPart
