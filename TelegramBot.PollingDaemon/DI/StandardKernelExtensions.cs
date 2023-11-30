@@ -1,4 +1,6 @@
-﻿using Core.RestClient;
+﻿using Core.LinksRecognizers.Spotify;
+using Core.LinksRecognizers.Yandex;
+using Core.RestClient;
 using Core.StringComparison;
 using MusicSearch.Client;
 using Ninject;
@@ -37,6 +39,14 @@ public static class StandardKernelExtensions
     {
         var telegramBot = standardKernel.Get<ITelegramBotBuilder>().BuildClient();
         standardKernel.Bind<ITelegramBotClient>().ToConstant(telegramBot);
+
+        return standardKernel;
+    }
+
+    public static StandardKernel WithLinksRecognizers(this StandardKernel standardKernel)
+    {
+        standardKernel.Bind<ISpotifyLinksRecognizeService>().To<SpotifyLinksRecognizeService>();
+        standardKernel.Bind<IYandexLinksRecognizeService>().To<YandexLinksRecognizeService>();
 
         return standardKernel;
     }
