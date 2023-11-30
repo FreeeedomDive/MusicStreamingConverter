@@ -7,6 +7,7 @@ using Ninject;
 using Telegram.Bot;
 using TelegramBot.WorkerService;
 using TelegramBot.WorkerService.Builder;
+using TelegramBot.WorkerService.ResponseBuilders;
 
 namespace TelegramBot.PollingDaemon.DI;
 
@@ -54,6 +55,14 @@ public static class StandardKernelExtensions
     public static StandardKernel WithStringComparator(this StandardKernel standardKernel)
     {
         standardKernel.Bind<IStringComparison>().To<LevenshteinDistanceStringComparison>();
+
+        return standardKernel;
+    }
+
+    public static StandardKernel WithResponseBuilders(this StandardKernel standardKernel)
+    {
+        standardKernel.Bind<ISpotifyTrackResponseBuilder>().To<SpotifyTrackResponseBuilder>();
+        standardKernel.Bind<IYandexMusicTrackResponseBuilder>().To<YandexMusicTrackResponseBuilder>();
 
         return standardKernel;
     }

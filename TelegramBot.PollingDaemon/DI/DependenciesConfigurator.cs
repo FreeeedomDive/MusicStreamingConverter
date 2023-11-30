@@ -17,6 +17,7 @@ public class DependenciesConfigurator
             .WithClients()
             .WithStringComparator()
             .WithLinksRecognizers()
+            .WithResponseBuilders()
             .WithExecutableServices();
 
         return ninjectKernel;

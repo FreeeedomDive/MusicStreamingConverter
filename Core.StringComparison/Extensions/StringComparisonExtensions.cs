@@ -19,7 +19,7 @@ public static class StringComparisonExtensions
                 : 0,
             [TrackComparisonPart.AlbumTitle] = original.Album != null && foundTrack.Album != null
                 ? stringComparison.Compare(original.Album.Name, foundTrack.Album.Name)
-                : 0
+                : 0,
         };
 
         var total = partsComparison.Keys
