@@ -63,7 +63,7 @@ public static class StandardKernelExtensions
     {
         standardKernel.Bind<ISpotifyTrackResponseBuilder>().To<SpotifyTrackResponseBuilder>();
         standardKernel.Bind<IYandexMusicTrackResponseBuilder>().To<YandexMusicTrackResponseBuilder>();
-        standardKernel.Bind<ISpotifyAlbumResponseBuilder, SpotifyAlbumResponseBuilder>();
+        standardKernel.Bind<ISpotifyAlbumResponseBuilder>().To<SpotifyAlbumResponseBuilder>();
 
         return standardKernel;
     }
