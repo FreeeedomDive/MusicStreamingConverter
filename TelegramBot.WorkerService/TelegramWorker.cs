@@ -21,6 +21,7 @@ public class TelegramWorker
     ISpotifyAlbumResponseBuilder spotifyAlbumResponseBuilder,
     IYandexMusicAlbumResponseBuilder yandexMusicAlbumResponseBuilder,
     ISpotifyArtistResponseBuilder spotifyArtistResponseBuilder,
+    IYandexMusicArtistResponseBuilder yandexMusicArtistResponseBuilder,
     ILoggerClient logger
 ) : ITelegramWorker
 {
@@ -127,7 +128,7 @@ public class TelegramWorker
                 await spotifyArtistResponseBuilder.BuildAsync(chatId, link.Id);
                 break;
             default:
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException(nameof(link));
         }
     }
 
@@ -142,9 +143,10 @@ public class TelegramWorker
                 await yandexMusicAlbumResponseBuilder.BuildAsync(chatId, link.Id);
                 break;
             case LinkType.Artist:
+                await yandexMusicArtistResponseBuilder.BuildAsync(chatId, link.Id);
                 break;
             default:
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException(nameof(link));
         }
     }
 

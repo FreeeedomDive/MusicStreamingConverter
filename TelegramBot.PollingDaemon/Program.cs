@@ -44,6 +44,7 @@ builder.Services.AddTransient<IYandexMusicTrackResponseBuilder, YandexMusicTrack
 builder.Services.AddTransient<ISpotifyAlbumResponseBuilder, SpotifyAlbumResponseBuilder>();
 builder.Services.AddTransient<IYandexMusicAlbumResponseBuilder, YandexMusicAlbumResponseBuilder>();
 builder.Services.AddTransient<ISpotifyArtistResponseBuilder, SpotifyArtistResponseBuilder>();
+builder.Services.AddTransient<IYandexMusicArtistResponseBuilder, YandexMusicArtistResponseBuilder>();
 
 builder.Services.AddTransient<IStringComparison, LevenshteinDistanceStringComparison>();
 builder.Services.AddSingleton<ITelegramWorker, TelegramWorker>();
