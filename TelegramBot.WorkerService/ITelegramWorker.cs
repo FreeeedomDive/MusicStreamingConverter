@@ -2,5 +2,5 @@
 
 public interface ITelegramWorker
 {
-    public Task Start();
+    public Task StartAsync();
 }
