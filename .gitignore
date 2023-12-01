@@ -6,3 +6,4 @@ Files/Auth
 MusicSearch.Api/Auth/spotifyAuth.json
 MusicSearch.Api/Auth/yandexAuth.json
 TelegramBot.PollingDaemon/Auth/telegramAuth.json
+MusicSearch.Api/appsettings.Production.json
