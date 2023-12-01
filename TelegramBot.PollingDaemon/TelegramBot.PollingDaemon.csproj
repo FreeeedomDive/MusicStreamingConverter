@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
@@ -9,27 +9,14 @@
 
     <ItemGroup>
       <PackageReference Include="Ninject" Version="3.3.6" />
-      <PackageReference Include="NLog" Version="5.0.4" />
       <PackageReference Include="Xdd.TelemetryApp.Api.Utilities" Version="1.0.12" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Core.LinksRecognizers\Core.LinksRecognizers.csproj" />
       <ProjectReference Include="..\MusicSearch.Client\MusicSearch.Client.csproj" />
-      <ProjectReference Include="..\MusicSearch.SpotifyService\MusicSearch.SpotifyService.csproj" />
-      <ProjectReference Include="..\MusicSearch.Client\MusicSearch.Client.csproj" />
       <ProjectReference Include="..\Core.RestClient\Core.RestClient.csproj" />
       <ProjectReference Include="..\TelegramBot.WorkerService\TelegramBot.WorkerService.csproj" />
-      <ProjectReference Include="..\MusicSearch.YandexMusicService\MusicSearch.YandexMusicService.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Update="Auth\telegramAuth.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Settings\settings.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
     </ItemGroup>
 
 </Project>

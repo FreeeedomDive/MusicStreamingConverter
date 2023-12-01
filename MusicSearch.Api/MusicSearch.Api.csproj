@@ -13,35 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\MusicSearch.SpotifyService\MusicSearch.SpotifyService.csproj" />
-      <ProjectReference Include="..\MusicSearch.YandexMusicService\MusicSearch.YandexMusicService.csproj" />
-      <ProjectReference Include="..\MusicSearch.SpotifyService\MusicSearch.SpotifyService.csproj" />
-      <ProjectReference Include="..\MusicSearch.YandexMusicService\MusicSearch.YandexMusicService.csproj" />
+        <ProjectReference Include="..\MusicSearch.SpotifyService\MusicSearch.SpotifyService.csproj" />
+        <ProjectReference Include="..\MusicSearch.YandexMusicService\MusicSearch.YandexMusicService.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <None Include="NLog.config">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="startProduction.bat">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Include="Settings\settings.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-        <DependentUpon>Dockerfile</DependentUpon>
-      </Content>
-      <Content Update="Auth\yandexAuth.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-      <Content Update="Auth\spotifyAuth.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-    </ItemGroup>
-
 </Project>

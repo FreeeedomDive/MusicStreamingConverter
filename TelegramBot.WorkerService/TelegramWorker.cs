@@ -22,7 +22,7 @@ public class TelegramWorker
     ILoggerClient logger
 ) : ITelegramWorker
 {
-    public async Task Start()
+    public async Task StartAsync()
     {
         var receiverOptions = new ReceiverOptions
         {
