@@ -51,6 +51,13 @@ public static class StringComparisonExtensions
         return total / ComparisonPartWeightsForAlbums.Values.Sum();
     }
 
+    public static int CompareArtists(this IStringComparison stringComparison, ArtistDto original, ArtistDto? foundArtist)
+    {
+        return foundArtist == null
+            ? 0
+            : stringComparison.Compare(original.Name, foundArtist.Name);
+    }
+
     private static readonly Dictionary<TrackComparisonPart, int> ComparisonPartWeightsForTracks = new()
     {
         [TrackComparisonPart.TrackTitle] = 7,

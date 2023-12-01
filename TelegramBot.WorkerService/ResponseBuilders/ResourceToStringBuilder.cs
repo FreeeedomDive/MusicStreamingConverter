@@ -61,4 +61,30 @@ public static class ResourceToStringBuilder
                + $"Исполнитель: {string.Join(" ", yandexAlbum.Artist?.Name)}\n"
                + $"Альбом: {yandexAlbum.Name}";
     }
+
+    public static string SpotifyArtistToString(ArtistDto? spotifyArtist, int? resultConfidence = null)
+    {
+        if (spotifyArtist == null)
+        {
+            return "Исполнитель не найден в Spotify";
+        }
+
+        return (resultConfidence == null
+                   ? ""
+                   : $"Уверенность в найденном результате: {resultConfidence}%\n")
+               + $"Исполнитель: {string.Join(" ", spotifyArtist.Name)}";
+    }
+
+    public static string YandexMusicArtistToString(ArtistDto? yandexArtist, int? resultConfidence = null)
+    {
+        if (yandexArtist == null)
+        {
+            return "Исполнитель не найден в Яндекс.Музыке";
+        }
+
+        return (resultConfidence == null
+                   ? ""
+                   : $"Уверенность в найденном результате: {resultConfidence}%\n")
+               + $"Исполнитель: {string.Join(" ", yandexArtist.Name)}";
+    }
 }

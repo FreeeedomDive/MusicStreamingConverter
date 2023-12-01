@@ -20,6 +20,7 @@ public class TelegramWorker
     IYandexMusicTrackResponseBuilder yandexMusicTrackResponseBuilder,
     ISpotifyAlbumResponseBuilder spotifyAlbumResponseBuilder,
     IYandexMusicAlbumResponseBuilder yandexMusicAlbumResponseBuilder,
+    ISpotifyArtistResponseBuilder spotifyArtistResponseBuilder,
     ILoggerClient logger
 ) : ITelegramWorker
 {
@@ -123,6 +124,7 @@ public class TelegramWorker
                 await spotifyAlbumResponseBuilder.BuildAsync(chatId, link.Id);
                 break;
             case LinkType.Artist:
+                await spotifyArtistResponseBuilder.BuildAsync(chatId, link.Id);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
