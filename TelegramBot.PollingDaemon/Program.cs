@@ -1,16 +1,42 @@
-﻿using Ninject;
-using TelegramBot.PollingDaemon.DI;
+﻿using Core.RestClient;
+using Core.StringComparison;
+using Microsoft.Extensions.Options;
+using MusicSearch.Client;
+using Telegram.Bot;
+using TelegramBot.PollingDaemon.Options;
 using TelegramBot.WorkerService;
+using TelemetryApp.Utilities.Extensions;
 
-namespace TelegramBot.PollingDaemon;
+var builder = WebApplication.CreateBuilder(args);
 
-public class EntryPoint
-{
-    public static async Task Main()
+var telemetryApiUrl = builder.Configuration.GetSection("Telemetry").GetSection("ApiUrl").Value;
+builder.Services.ConfigureTelemetryClientWithLogger("MusicStreamingConverter", "TelegramBot", telemetryApiUrl);
+
+builder.Services.Configure<MusicSearchOptions>(builder.Configuration.GetRequiredSection("MusicSearch"));
+builder.Services.Configure<TelegramOptions>(builder.Configuration.GetRequiredSection("Telegram"));
+
+builder.Services.AddSingleton<IMusicSearchClient>(
+    serviceProvider =>
     {
-        var kernel = new DependenciesConfigurator().BuildDependencies();
-        var telegramWorker = kernel.Get<ITelegramWorker>();
+        var apiUrl = serviceProvider.GetRequiredService<IOptions<MusicSearchOptions>>().Value.ApiUrl;
+        var restClient = RestClientBuilder.BuildRestClient(apiUrl, false);
 
-        await telegramWorker.Start();
+        return new MusicSearchClient(restClient);
     }
-}
+);
+
+builder.Services.AddSingleton<ITelegramBotClient>(
+    serviceProvider =>
+    {
+        var botToken = serviceProvider.GetRequiredService<IOptions<TelegramOptions>>().Value.BotToken;
+        return new TelegramBotClient(botToken);
+    }
+);
+
+builder.Services.AddTransient<IStringComparison, LevenshteinDistanceStringComparison>();
+builder.Services.AddSingleton<ITelegramWorker, TelegramWorker>();
+
+var app = builder.Build();
+
+var telegramWorker = app.Services.GetRequiredService<ITelegramWorker>();
+await telegramWorker.StartAsync();

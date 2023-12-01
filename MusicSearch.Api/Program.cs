@@ -15,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<SpotifyOptions>(builder.Configuration.GetSection("Spotify"));
 
 var telemetryApiUrl = builder.Configuration.GetSection("Telemetry").GetSection("ApiUrl").Value;
-builder.Services.ConfigureTelemetryClientWithLogger("AntiClownBot", "Api", telemetryApiUrl);
+builder.Services.ConfigureTelemetryClientWithLogger("MusicStreamingConverter", "MusicSearchApi", telemetryApiUrl);
 
 builder.Services.AddSingleton<ISpotifyClient>(
     serviceProvider =>

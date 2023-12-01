@@ -30,11 +30,11 @@ public class TelegramWorker : ITelegramWorker
         cancellationTokenSource = new CancellationTokenSource();
     }
 
-    public async Task Start()
+    public async Task StartAsync()
     {
         var receiverOptions = new ReceiverOptions
         {
-            AllowedUpdates = Array.Empty<UpdateType>()
+            AllowedUpdates = Array.Empty<UpdateType>(),
         };
 
         telegramBotClient.StartReceiving(

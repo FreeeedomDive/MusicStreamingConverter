@@ -1,9 +1,6 @@
 .idea
 bin
 obj
-Files/Auth
 *.user
-MusicSearch.Api/Auth/spotifyAuth.json
-MusicSearch.Api/Auth/yandexAuth.json
-TelegramBot.PollingDaemon/Auth/telegramAuth.json
 MusicSearch.Api/appsettings.Production.json
+TelegramBot.PollingDaemon/appsettings.Production.json
