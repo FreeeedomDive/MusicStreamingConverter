@@ -1,4 +1,5 @@
-﻿using Core.StringComparison;
+﻿using System.Text;
+using Core.StringComparison;
 using Core.StringComparison.Extensions;
 using MusicSearch.Client;
 using MusicSearch.Dto.Models;
@@ -17,7 +18,7 @@ public class YandexMusicTrackResponseBuilder
     public async Task BuildAsync(long chatId, string trackId)
     {
         var track = await musicSearchClient.YandexMusic.GetTrackAsync(trackId);
-        var trackInfo = YandexMusicTrackToString(track);
+        var trackInfo = ResourceToStringBuilder.YandexMusicTrackToString(track);
         var searchInfoStrings = new List<string>();
 
         var query = $"{track.Artist?.Name} {track.Title} {track.Album?.Name}";
@@ -43,17 +44,19 @@ public class YandexMusicTrackResponseBuilder
                                .Select(x => Convert(x, track))
                                .OrderByDescending(x => x.confidence)
                                .FirstOrDefault();
-        var spotifyTrackInfo = SpotifyTrackToString(sameSpotifyTrack.track, sameSpotifyTrack.confidence);
+        var spotifyTrackInfo = ResourceToStringBuilder.SpotifyTrackToString(sameSpotifyTrack.track, sameSpotifyTrack.confidence);
 
         await telegramBotClient.SendTextMessageAsync(
             chatId,
-            $"{trackInfo}\n" +
-            $"===========\n" +
-            $"Результаты поиска\n" +
-            $"{string.Join("\n", searchInfoStrings)}\n" +
-            $"===========\n" +
-            $"Трек в спотифае" +
-            $"\n{spotifyTrackInfo}"
+            new StringBuilder()
+                .AppendLine(trackInfo)
+                .AppendLine("===========")
+                .AppendLine("Результаты поиска")
+                .AppendLine(string.Join("\n", searchInfoStrings))
+                .AppendLine("===========")
+                .AppendLine("Трек в Spotify")
+                .Append(spotifyTrackInfo)
+                .ToString()
         );
         if (sameSpotifyTrack.track is not null)
         {
@@ -62,36 +65,6 @@ public class YandexMusicTrackResponseBuilder
                 $"https://open.spotify.com/track/{sameSpotifyTrack.track.Uri["spotify:track:".Length..]}"
             );
         }
-    }
-
-    private static string SpotifyTrackToString(TrackDto? spotifyTrack, int? resultConfidence = null)
-    {
-        if (spotifyTrack == null)
-        {
-            return "Не нашли трек в спотифае";
-        }
-
-        return (resultConfidence == null
-                   ? ""
-                   : $"Уверенность в найденном результате: {resultConfidence}%\n")
-               + $"Исполнитель: {string.Join(" ", spotifyTrack.Artist?.Name)}\n"
-               + $"Название трека: {spotifyTrack.Title}\n"
-               + $"Альбом: {spotifyTrack.Album?.Name}";
-    }
-
-    private static string YandexMusicTrackToString(TrackDto? yandexTrack, int? resultConfidence = null)
-    {
-        if (yandexTrack == null)
-        {
-            return "Не нашли трек в Яндекс.музыке";
-        }
-
-        return (resultConfidence == null
-                   ? ""
-                   : $"Уверенность в найденном результате: {resultConfidence}%\n")
-               + $"Исполнитель: {string.Join(" ", yandexTrack.Artist?.Name)}\n"
-               + $"Название трека: {yandexTrack.Title}\n"
-               + $"Альбом: {string.Join(" ", yandexTrack.Album?.Name)}";
     }
 
     private (TrackDto? track, int confidence) Convert(TrackDto? trackDto, TrackDto original)
