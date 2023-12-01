@@ -27,7 +27,7 @@ public class YandexMusicAlbumResponseBuilder
                                .Select(x => Convert(x, album))
                                .OrderByDescending(x => x.confidence)
                                .FirstOrDefault();
-        var spotifyTrackInfo = ResourceToStringBuilder.SpotifyAlbumToString(sameSpotifyAlbum.album, sameSpotifyAlbum.confidence);
+        var spotifyAlbumInfo = ResourceToStringBuilder.SpotifyAlbumToString(sameSpotifyAlbum.album, sameSpotifyAlbum.confidence);
 
         await telegramBotClient.SendTextMessageAsync(
             chatId,
@@ -38,7 +38,7 @@ public class YandexMusicAlbumResponseBuilder
                 .AppendLine(searchResults.Length.PluralizeString("результат", "результата", "результатов"))
                 .AppendLine("===========")
                 .AppendLine("Альбом в Spotify")
-                .Append(spotifyTrackInfo)
+                .Append(spotifyAlbumInfo)
                 .ToString()
         );
         if (sameSpotifyAlbum.album is not null)
