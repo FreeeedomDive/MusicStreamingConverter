@@ -56,7 +56,8 @@ public class SpotifyService : ISpotifyService
             : new ArtistDto
             {
                 Id = artist.Id,
-                Name = artist.Name
+                Name = artist.Name,
+                Uri = artist.Uri,
             };
     }
 
@@ -67,7 +68,8 @@ public class SpotifyService : ISpotifyService
             : new ArtistDto
             {
                 Id = artist.Id,
-                Name = artist.Name
+                Name = artist.Name,
+                Uri = artist.Uri,
             };
     }
 
@@ -79,7 +81,8 @@ public class SpotifyService : ISpotifyService
             {
                 Id = album.Id,
                 Name = album.Name,
-                Artist = ArtistToDto(album.Artists?.FirstOrDefault())
+                Artist = ArtistToDto(album.Artists?.FirstOrDefault()),
+                Uri = album.Uri,
             };
     }
 
@@ -91,7 +94,8 @@ public class SpotifyService : ISpotifyService
             {
                 Id = album.Id,
                 Name = album.Name,
-                Artist = ArtistToDto(album.Artists?.FirstOrDefault())
+                Artist = ArtistToDto(album.Artists?.FirstOrDefault()),
+                Uri = album.Uri,
             };
     }
 
@@ -104,7 +108,7 @@ public class SpotifyService : ISpotifyService
             Artist = ArtistToDto(track.Artists?.FirstOrDefault()),
             Album = AlbumToDto(track.Album),
             Source = TrackSource.Spotify,
-            Uri = track.Uri
+            Uri = track.Uri,
         };
     }
 

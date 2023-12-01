@@ -38,9 +38,12 @@ builder.Services.AddSingleton<ITelegramBotClient>(
 
 builder.Services.AddTransient<ISpotifyLinksRecognizeService, SpotifyLinksRecognizeService>();
 builder.Services.AddTransient<IYandexLinksRecognizeService, YandexLinksRecognizeService>();
+
 builder.Services.AddTransient<ISpotifyTrackResponseBuilder, SpotifyTrackResponseBuilder>();
 builder.Services.AddTransient<IYandexMusicTrackResponseBuilder, YandexMusicTrackResponseBuilder>();
 builder.Services.AddTransient<ISpotifyAlbumResponseBuilder, SpotifyAlbumResponseBuilder>();
+builder.Services.AddTransient<IYandexMusicAlbumResponseBuilder, YandexMusicAlbumResponseBuilder>();
+
 builder.Services.AddTransient<IStringComparison, LevenshteinDistanceStringComparison>();
 builder.Services.AddSingleton<ITelegramWorker, TelegramWorker>();
 

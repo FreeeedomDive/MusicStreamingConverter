@@ -19,6 +19,7 @@ public class TelegramWorker
     ISpotifyTrackResponseBuilder spotifyTrackResponseBuilder,
     IYandexMusicTrackResponseBuilder yandexMusicTrackResponseBuilder,
     ISpotifyAlbumResponseBuilder spotifyAlbumResponseBuilder,
+    IYandexMusicAlbumResponseBuilder yandexMusicAlbumResponseBuilder,
     ILoggerClient logger
 ) : ITelegramWorker
 {
@@ -136,6 +137,7 @@ public class TelegramWorker
                 await yandexMusicTrackResponseBuilder.BuildAsync(chatId, link.Id);
                 break;
             case LinkType.Album:
+                await yandexMusicAlbumResponseBuilder.BuildAsync(chatId, link.Id);
                 break;
             case LinkType.Artist:
                 break;
