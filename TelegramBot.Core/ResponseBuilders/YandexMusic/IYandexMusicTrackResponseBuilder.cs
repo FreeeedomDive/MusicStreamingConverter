@@ -2,5 +2,5 @@
 
 public interface IYandexMusicTrackResponseBuilder
 {
-    Task BuildAsync(long chatId, string trackId);
+    Task<string> BuildAsync(string trackId);
 }

@@ -22,8 +22,9 @@ public class ResourceMatcher
         {
             return new ResourceMatch<TrackDto>
             {
+                Original = track,
                 MatchResult = null,
-                FoundResults = 0,
+                FoundResultsCount = 0,
                 MatchConfidence = 0,
             };
         }
@@ -32,8 +33,9 @@ public class ResourceMatcher
         var mostConfidentResult = compareResults.First();
         return new ResourceMatch<TrackDto>
         {
+            Original = track,
             MatchResult = mostConfidentResult.Resource,
-            FoundResults = foundTracks.Length,
+            FoundResultsCount = foundTracks.Length,
             MatchConfidence = mostConfidentResult.Confidence,
         };
     }
@@ -46,8 +48,9 @@ public class ResourceMatcher
         {
             return new ResourceMatch<AlbumDto>
             {
+                Original = album,
                 MatchResult = null,
-                FoundResults = 0,
+                FoundResultsCount = 0,
                 MatchConfidence = 0,
             };
         }
@@ -56,8 +59,9 @@ public class ResourceMatcher
         var mostConfidentResult = compareResults.First();
         return new ResourceMatch<AlbumDto>
         {
+            Original = album,
             MatchResult = mostConfidentResult.Resource,
-            FoundResults = foundAlbums.Length,
+            FoundResultsCount = foundAlbums.Length,
             MatchConfidence = mostConfidentResult.Confidence,
         };
     }
@@ -70,8 +74,9 @@ public class ResourceMatcher
         {
             return new ResourceMatch<ArtistDto>
             {
+                Original = artist,
                 MatchResult = null,
-                FoundResults = 0,
+                FoundResultsCount = 0,
                 MatchConfidence = 0,
             };
         }
@@ -80,13 +85,13 @@ public class ResourceMatcher
         var mostConfidentResult = compareResults.First();
         return new ResourceMatch<ArtistDto>
         {
+            Original = artist,
             MatchResult = mostConfidentResult.Resource,
-            FoundResults = foundArtists.Length,
+            FoundResultsCount = foundArtists.Length,
             MatchConfidence = mostConfidentResult.Confidence,
         };
     }
-    
-    // TODO: to client extensions?
+
     private readonly Dictionary<Source, Func<string, Task<TrackDto>>> getTrackFromSource = new()
     {
         { Source.Spotify, id => musicSearchClient.Spotify.GetTrackAsync(id) },

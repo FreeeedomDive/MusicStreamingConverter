@@ -2,5 +2,5 @@
 
 public interface ISpotifyArtistResponseBuilder
 {
-    Task BuildAsync(long chatId, string artistId);
+    Task<string> BuildAsync(string artistId);
 }

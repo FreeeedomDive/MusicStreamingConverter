@@ -32,7 +32,6 @@ public class ResourceSearcher(IMusicSearchClient musicSearchClient) : IResourceS
         return result;
     }
 
-    // TODO: to client extensions?
     private readonly Dictionary<Source, Func<string, Task<TrackDto[]>>> searchTracksFromSource = new()
     {
         { Source.Spotify, query => musicSearchClient.Spotify.FindTracksAsync(query) },

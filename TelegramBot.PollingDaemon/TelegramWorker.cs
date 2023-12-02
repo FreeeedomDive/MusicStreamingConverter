@@ -9,6 +9,7 @@ using Telegram.Bot.Types.Enums;
 using TelegramBot.Core.ResponseBuilders;
 using TelegramBot.Core.ResponseBuilders.Spotify;
 using TelegramBot.Core.ResponseBuilders.YandexMusic;
+using TelegramBot.Core.Services.Match;
 using TelemetryApp.Api.Client.Log;
 
 namespace TelegramBot.PollingDaemon;
@@ -121,38 +122,26 @@ public class TelegramWorker
 
     private async Task HandleSpotifyLinkAsync(long chatId, ResourceLink link)
     {
-        switch (link.Type)
+        var result = link.Type switch
         {
-            case LinkType.Track:
-                await spotifyTrackResponseBuilder.BuildAsync(chatId, link.Id);
-                break;
-            case LinkType.Album:
-                await spotifyAlbumResponseBuilder.BuildAsync(chatId, link.Id);
-                break;
-            case LinkType.Artist:
-                await spotifyArtistResponseBuilder.BuildAsync(chatId, link.Id);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(link));
-        }
+            LinkType.Track => await spotifyTrackResponseBuilder.BuildAsync(link.Id),
+            LinkType.Artist => await spotifyAlbumResponseBuilder.BuildAsync(link.Id),
+            LinkType.Album => await spotifyArtistResponseBuilder.BuildAsync(link.Id),
+            _ => throw new ArgumentOutOfRangeException(nameof(link)),
+        };
+        await SendMessage(chatId, result);
     }
 
     private async Task HandleYandexMusicLinkAsync(long chatId, ResourceLink link)
     {
-        switch (link.Type)
+        var result = link.Type switch
         {
-            case LinkType.Track:
-                await yandexMusicTrackResponseBuilder.BuildAsync(chatId, link.Id);
-                break;
-            case LinkType.Album:
-                await yandexMusicAlbumResponseBuilder.BuildAsync(chatId, link.Id);
-                break;
-            case LinkType.Artist:
-                await yandexMusicArtistResponseBuilder.BuildAsync(chatId, link.Id);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(link));
-        }
+            LinkType.Track => await yandexMusicTrackResponseBuilder.BuildAsync(link.Id),
+            LinkType.Artist => await yandexMusicAlbumResponseBuilder.BuildAsync(link.Id),
+            LinkType.Album => await yandexMusicArtistResponseBuilder.BuildAsync(link.Id),
+            _ => throw new ArgumentOutOfRangeException(nameof(link)),
+        };
+        await SendMessage(chatId, result);
     }
 
     private async Task SendMessage(long chatId, string message)

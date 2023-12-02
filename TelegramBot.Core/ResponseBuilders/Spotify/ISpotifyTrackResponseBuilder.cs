@@ -2,5 +2,5 @@
 
 public interface ISpotifyTrackResponseBuilder
 {
-    Task BuildAsync(long chatId, string trackId);
+    Task<string> BuildAsync(string trackId);
 }
