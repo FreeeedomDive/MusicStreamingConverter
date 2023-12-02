@@ -11,6 +11,9 @@ using TelegramBot.Core;
 using TelegramBot.Core.ResponseBuilders;
 using TelegramBot.Core.ResponseBuilders.Spotify;
 using TelegramBot.Core.ResponseBuilders.YandexMusic;
+using TelegramBot.Core.Services.Compare;
+using TelegramBot.Core.Services.Match;
+using TelegramBot.Core.Services.Search;
 using TelemetryApp.Utilities.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,6 +44,10 @@ builder.Services.AddSingleton<ITelegramBotClient>(
 
 builder.Services.AddTransient<ISpotifyLinksRecognizeService, SpotifyLinksRecognizeService>();
 builder.Services.AddTransient<IYandexLinksRecognizeService, YandexLinksRecognizeService>();
+
+builder.Services.AddTransient<IResourceSearcher, ResourceSearcher>();
+builder.Services.AddTransient<IResourceComparer, ResourceComparer>();
+builder.Services.AddTransient<IResourceMatcher, ResourceMatcher>();
 
 builder.Services.AddTransient<ISpotifyTrackResponseBuilder, SpotifyTrackResponseBuilder>();
 builder.Services.AddTransient<IYandexMusicTrackResponseBuilder, YandexMusicTrackResponseBuilder>();
