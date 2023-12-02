@@ -125,8 +125,8 @@ public class TelegramWorker
         var result = link.Type switch
         {
             LinkType.Track => await spotifyTrackResponseBuilder.BuildAsync(link.Id),
-            LinkType.Artist => await spotifyAlbumResponseBuilder.BuildAsync(link.Id),
-            LinkType.Album => await spotifyArtistResponseBuilder.BuildAsync(link.Id),
+            LinkType.Album => await spotifyAlbumResponseBuilder.BuildAsync(link.Id),
+            LinkType.Artist => await spotifyArtistResponseBuilder.BuildAsync(link.Id),
             _ => throw new ArgumentOutOfRangeException(nameof(link)),
         };
         await SendMessage(chatId, result);
@@ -137,8 +137,8 @@ public class TelegramWorker
         var result = link.Type switch
         {
             LinkType.Track => await yandexMusicTrackResponseBuilder.BuildAsync(link.Id),
-            LinkType.Artist => await yandexMusicAlbumResponseBuilder.BuildAsync(link.Id),
-            LinkType.Album => await yandexMusicArtistResponseBuilder.BuildAsync(link.Id),
+            LinkType.Album => await yandexMusicAlbumResponseBuilder.BuildAsync(link.Id),
+            LinkType.Artist => await yandexMusicArtistResponseBuilder.BuildAsync(link.Id),
             _ => throw new ArgumentOutOfRangeException(nameof(link)),
         };
         await SendMessage(chatId, result);
