@@ -1,4 +1,4 @@
-﻿namespace TelegramBot.WorkerService.ResponseBuilders;
+﻿namespace TelegramBot.Core.ResponseBuilders.Spotify;
 
 public interface ISpotifyAlbumResponseBuilder
 {

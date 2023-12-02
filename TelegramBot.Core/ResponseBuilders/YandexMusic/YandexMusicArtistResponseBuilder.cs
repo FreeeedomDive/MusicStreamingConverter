@@ -4,30 +4,30 @@ using Core.StringComparison.Extensions;
 using MusicSearch.Client;
 using MusicSearch.Dto.Models;
 using Telegram.Bot;
-using TelegramBot.WorkerService.Extensions;
+using TelegramBot.Core.Extensions;
 
-namespace TelegramBot.WorkerService.ResponseBuilders;
+namespace TelegramBot.Core.ResponseBuilders.YandexMusic;
 
-public class SpotifyArtistResponseBuilder
+public class YandexMusicArtistResponseBuilder
 (
     IMusicSearchClient musicSearchClient,
     ITelegramBotClient telegramBotClient,
     IStringComparison stringComparison
-) : ISpotifyArtistResponseBuilder
+) : IYandexMusicArtistResponseBuilder
 {
     public async Task BuildAsync(long chatId, string artistId)
     {
-        var artist = await musicSearchClient.Spotify.GetArtistAsync(artistId);
-        var artistInfo = ResourceToStringBuilder.SpotifyArtistToString(artist);
+        var artist = await musicSearchClient.YandexMusic.GetArtistAsync(artistId);
+        var artistInfo = ResourceToStringBuilder.YandexMusicArtistToString(artist);
 
         var query = artist.Name;
-        var searchResults = await musicSearchClient.YandexMusic.FindArtistsAsync(query);
+        var searchResults = await musicSearchClient.Spotify.FindArtistsAsync(query);
 
-        var sameYandexArtist = searchResults
-                              .Select(x => Convert(x, artist))
-                              .OrderByDescending(x => x.confidence)
-                              .FirstOrDefault();
-        var yandexArtistInfo = ResourceToStringBuilder.YandexMusicArtistToString(sameYandexArtist.artist, sameYandexArtist.confidence);
+        var sameSpotifyArtist = searchResults
+                               .Select(x => Convert(x, artist))
+                               .OrderByDescending(x => x.confidence)
+                               .FirstOrDefault();
+        var spotifyArtistInfo = ResourceToStringBuilder.SpotifyArtistToString(sameSpotifyArtist.artist, sameSpotifyArtist.confidence);
 
         await telegramBotClient.SendTextMessageAsync(
             chatId,
@@ -37,15 +37,15 @@ public class SpotifyArtistResponseBuilder
                 .AppendLine("Результаты поиска")
                 .AppendLine(searchResults.Length.PluralizeString("результат", "результата", "результатов"))
                 .AppendLine("===========")
-                .AppendLine("Исполнитель в Яндекс.Музыке")
-                .Append(yandexArtistInfo)
+                .AppendLine("Исполнитель в Spotify")
+                .Append(spotifyArtistInfo)
                 .ToString()
         );
-        if (sameYandexArtist.artist is not null)
+        if (sameSpotifyArtist.artist is not null)
         {
             await telegramBotClient.SendTextMessageAsync(
                 chatId,
-                $"https://music.yandex.ru/artist/{sameYandexArtist.artist.Id}"
+                $"https://open.spotify.com/artist/{sameSpotifyArtist.artist.Uri["spotify:artist:".Length..]}"
             );
         }
     }

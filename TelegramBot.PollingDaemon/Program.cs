@@ -5,9 +5,12 @@ using Core.StringComparison;
 using Microsoft.Extensions.Options;
 using MusicSearch.Client;
 using Telegram.Bot;
+using TelegramBot.PollingDaemon;
 using TelegramBot.PollingDaemon.Options;
-using TelegramBot.WorkerService;
-using TelegramBot.WorkerService.ResponseBuilders;
+using TelegramBot.Core;
+using TelegramBot.Core.ResponseBuilders;
+using TelegramBot.Core.ResponseBuilders.Spotify;
+using TelegramBot.Core.ResponseBuilders.YandexMusic;
 using TelemetryApp.Utilities.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);

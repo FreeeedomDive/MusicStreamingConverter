@@ -1,4 +1,4 @@
-﻿namespace TelegramBot.WorkerService.ResponseBuilders;
+﻿namespace TelegramBot.Core.ResponseBuilders.YandexMusic;
 
 public interface IYandexMusicTrackResponseBuilder
 {

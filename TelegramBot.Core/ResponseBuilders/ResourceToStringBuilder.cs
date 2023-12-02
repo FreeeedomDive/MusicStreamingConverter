@@ -1,6 +1,6 @@
 ﻿using MusicSearch.Dto.Models;
 
-namespace TelegramBot.WorkerService.ResponseBuilders;
+namespace TelegramBot.Core.ResponseBuilders;
 
 public static class ResourceToStringBuilder
 {

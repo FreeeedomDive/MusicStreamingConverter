@@ -6,10 +6,12 @@ using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using TelegramBot.WorkerService.ResponseBuilders;
+using TelegramBot.Core.ResponseBuilders;
+using TelegramBot.Core.ResponseBuilders.Spotify;
+using TelegramBot.Core.ResponseBuilders.YandexMusic;
 using TelemetryApp.Api.Client.Log;
 
-namespace TelegramBot.WorkerService;
+namespace TelegramBot.PollingDaemon;
 
 public class TelegramWorker
 (
@@ -50,7 +52,10 @@ public class TelegramWorker
 
     private async Task HandleUpdateAsync(ITelegramBotClient client, Update update, CancellationToken cts)
     {
-        if (update.Message is not { Text: { } messageText } message) return;
+        if (update.Message is not { Text: { } messageText } message)
+        {
+            return;
+        }
 
         var chatId = message.Chat.Id;
         try
@@ -71,8 +76,8 @@ public class TelegramWorker
             {
                 await HandleSpotifyLinkAsync(chatId, spotifyResource);
                 await logger.InfoAsync(
-                    $"Successful convert {spotifyResource.Type} from Spotify\n{{Username}}: {{Message}}",
-                    message.Chat.Username ?? chatId.ToString(), messageText
+                    "Successful convert {Resource} from Spotify\n{Username}: {Message}",
+                    spotifyResource.Type, message.Chat.Username ?? chatId.ToString(), messageText
                 );
                 return;
             }
@@ -82,8 +87,8 @@ public class TelegramWorker
             {
                 await HandleYandexMusicLinkAsync(chatId, yandexResource);
                 await logger.InfoAsync(
-                    $"Successful convert {yandexResource.Type} from Spotify\n{{Username}}: {{Message}}",
-                    message.Chat.Username ?? chatId.ToString(), messageText
+                    "Successful convert {Resource} from Spotify\n{Username}: {Message}",
+                    yandexResource.Type, message.Chat.Username ?? chatId.ToString(), messageText
                 );
                 return;
             }
@@ -105,7 +110,7 @@ public class TelegramWorker
             {
                 await SendMessage(
                     chatId,
-                    $"Возникла ошибка при обработке\nСкорее всего яндекс просит ввести капчу, так что нужно подождать"
+                    "Возникла ошибка при обработке\nСкорее всего яндекс просит ввести капчу, так что нужно подождать"
                 );
                 return;
             }

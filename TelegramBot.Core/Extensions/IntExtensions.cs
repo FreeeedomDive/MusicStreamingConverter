@@ -1,4 +1,4 @@
-﻿namespace TelegramBot.WorkerService.Extensions;
+﻿namespace TelegramBot.Core.Extensions;
 
 public static class IntExtensions
 {

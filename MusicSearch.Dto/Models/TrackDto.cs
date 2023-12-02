@@ -6,7 +6,7 @@ public class TrackDto
     public string Title { get; set; }
     public ArtistDto? Artist { get; set; }
     public AlbumDto? Album { get; set; }
-    public TrackSource Source { get; set; }
+    public Source Source { get; set; }
 
     /// <summary>
     ///     Заполняется только для треков с Source = Spotify

@@ -4,47 +4,44 @@ using Core.StringComparison.Extensions;
 using MusicSearch.Client;
 using MusicSearch.Dto.Models;
 using Telegram.Bot;
-using TelegramBot.WorkerService.Extensions;
+using TelegramBot.Core.Extensions;
 
-namespace TelegramBot.WorkerService.ResponseBuilders;
+namespace TelegramBot.Core.ResponseBuilders.Spotify;
 
-public class YandexMusicTrackResponseBuilder
+public class SpotifyTrackResponseBuilder
 (
     IMusicSearchClient musicSearchClient,
     ITelegramBotClient telegramBotClient,
     IStringComparison stringComparison
-) : IYandexMusicTrackResponseBuilder
+) : ISpotifyTrackResponseBuilder
 {
     public async Task BuildAsync(long chatId, string trackId)
     {
-        var track = await musicSearchClient.YandexMusic.GetTrackAsync(trackId);
-        var trackInfo = ResourceToStringBuilder.YandexMusicTrackToString(track);
+        var track = await musicSearchClient.Spotify.GetTrackAsync(trackId);
+        var trackInfo = ResourceToStringBuilder.SpotifyTrackToString(track);
         var searchInfoStrings = new List<string>();
 
         var query = $"{track.Artist?.Name} {track.Title} {track.Album?.Name}";
-        var searchResults = await musicSearchClient.Spotify.FindTracksAsync(query);
-
+        var searchResults = await musicSearchClient.YandexMusic.FindTracksAsync(query);
         searchInfoStrings.Add(
             "Название + Исполнитель + Альбом - " +
             searchResults.Length.PluralizeString("результат", "результата", "результатов")
         );
-
         if (searchResults.Length == 0)
         {
             query = $"{track.Artist?.Name} {track.Title}";
-            searchResults = await musicSearchClient.Spotify.FindTracksAsync(query);
-
+            searchResults = await musicSearchClient.YandexMusic.FindTracksAsync(query);
             searchInfoStrings.Add(
                 "Название + Исполнитель - " +
                 searchResults.Length.PluralizeString("результат", "результата", "результатов")
             );
         }
 
-        var sameSpotifyTrack = searchResults
-                               .Select(x => Convert(x, track))
-                               .OrderByDescending(x => x.confidence)
-                               .FirstOrDefault();
-        var spotifyTrackInfo = ResourceToStringBuilder.SpotifyTrackToString(sameSpotifyTrack.track, sameSpotifyTrack.confidence);
+        var sameYandexTrack = searchResults
+                              .Select(x => Convert(x, track))
+                              .OrderByDescending(x => x.confidence)
+                              .FirstOrDefault();
+        var yandexTrackInfo = ResourceToStringBuilder.YandexMusicTrackToString(sameYandexTrack.track, sameYandexTrack.confidence);
 
         await telegramBotClient.SendTextMessageAsync(
             chatId,
@@ -54,15 +51,15 @@ public class YandexMusicTrackResponseBuilder
                 .AppendLine("Результаты поиска")
                 .AppendLine(string.Join("\n", searchInfoStrings))
                 .AppendLine("===========")
-                .AppendLine("Трек в Spotify")
-                .Append(spotifyTrackInfo)
+                .AppendLine("Трек в Яндекс.Музыке")
+                .AppendLine(yandexTrackInfo)
                 .ToString()
         );
-        if (sameSpotifyTrack.track is not null)
+        if (sameYandexTrack.track is not null)
         {
             await telegramBotClient.SendTextMessageAsync(
                 chatId,
-                $"https://open.spotify.com/track/{sameSpotifyTrack.track.Uri["spotify:track:".Length..]}"
+                $"https://music.yandex.ru/album/{sameYandexTrack.track.Album!.Id}/track/{sameYandexTrack.track.Id}"
             );
         }
     }

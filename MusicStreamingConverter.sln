@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicSearch.SpotifyService"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicSearch.YandexMusicService", "MusicSearch.YandexMusicService\MusicSearch.YandexMusicService.csproj", "{2982ABF4-4DCA-4FFB-8F0A-72F6E797BAEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot.WorkerService", "TelegramBot.WorkerService\TelegramBot.WorkerService.csproj", "{F541A7F3-04CB-4AB0-857D-36EBBB633C77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot.Core", "TelegramBot.Core\TelegramBot.Core.csproj", "{F541A7F3-04CB-4AB0-857D-36EBBB633C77}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot.PollingDaemon", "TelegramBot.PollingDaemon\TelegramBot.PollingDaemon.csproj", "{C191B94B-D4EA-4E62-B63E-7B544EBD4819}"
 EndProject
