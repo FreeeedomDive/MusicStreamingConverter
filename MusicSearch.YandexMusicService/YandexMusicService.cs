@@ -86,7 +86,8 @@ public class YandexMusicService : IYandexMusicService
             : new ArtistDto
             {
                 Id = artist.Id,
-                Name = artist.Name
+                Name = artist.Name,
+                Source = Source.YandexMusic,
             };
     }
 
@@ -98,7 +99,8 @@ public class YandexMusicService : IYandexMusicService
             {
                 Id = album.Id,
                 Name = album.Title,
-                Artist = ArtistToDto(album.Artists?.FirstOrDefault())
+                Artist = ArtistToDto(album.Artists?.FirstOrDefault()),
+                Source = Source.YandexMusic,
             };
     }
 
@@ -110,7 +112,7 @@ public class YandexMusicService : IYandexMusicService
             Title = track.Title + (track.Version ?? ""),
             Artist = ArtistToDto(track.Artists?.FirstOrDefault()),
             Album = AlbumToDto(track.Albums?.FirstOrDefault()),
-            Source = TrackSource.YandexMusic
+            Source = Source.YandexMusic,
         };
     }
 
@@ -121,7 +123,8 @@ public class YandexMusicService : IYandexMusicService
             : new ArtistDto
             {
                 Id = artist.Id,
-                Name = artist.Name
+                Name = artist.Name,
+                Source = Source.YandexMusic,
             };
     }
 
@@ -133,7 +136,8 @@ public class YandexMusicService : IYandexMusicService
             {
                 Id = album.Id,
                 Name = album.Title,
-                Artist = ArtistToDto(album.Artists?.FirstOrDefault())
+                Artist = ArtistToDto(album.Artists?.FirstOrDefault()),
+                Source = Source.YandexMusic,
             };
     }
 
@@ -144,7 +148,8 @@ public class YandexMusicService : IYandexMusicService
             Id = track.Id,
             Title = track.Title,
             Artist = ArtistToDto(track.Artists?.FirstOrDefault()),
-            Album = AlbumToDto(track.Albums?.FirstOrDefault())
+            Album = AlbumToDto(track.Albums?.FirstOrDefault()),
+            Source = Source.YandexMusic,
         };
     }
 

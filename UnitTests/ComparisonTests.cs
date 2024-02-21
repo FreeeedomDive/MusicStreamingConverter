@@ -4,7 +4,7 @@ using MusicSearch.Dto.Models;
 
 namespace UnitTests;
 
-public class Tests
+public class ComparisonTests
 {
     [SetUp]
     public void Setup()

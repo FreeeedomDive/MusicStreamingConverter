@@ -1,10 +1,19 @@
-﻿using Core.RestClient;
+﻿using Core.LinksRecognizers.Spotify;
+using Core.LinksRecognizers.Yandex;
+using Core.RestClient;
 using Core.StringComparison;
 using Microsoft.Extensions.Options;
 using MusicSearch.Client;
 using Telegram.Bot;
+using TelegramBot.PollingDaemon;
 using TelegramBot.PollingDaemon.Options;
-using TelegramBot.WorkerService;
+using TelegramBot.Core;
+using TelegramBot.Core.ResponseBuilders;
+using TelegramBot.Core.ResponseBuilders.Spotify;
+using TelegramBot.Core.ResponseBuilders.YandexMusic;
+using TelegramBot.Core.Services.Compare;
+using TelegramBot.Core.Services.Match;
+using TelegramBot.Core.Services.Search;
 using TelemetryApp.Utilities.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +41,20 @@ builder.Services.AddSingleton<ITelegramBotClient>(
         return new TelegramBotClient(botToken);
     }
 );
+
+builder.Services.AddTransient<ISpotifyLinksRecognizeService, SpotifyLinksRecognizeService>();
+builder.Services.AddTransient<IYandexLinksRecognizeService, YandexLinksRecognizeService>();
+
+builder.Services.AddTransient<IResourceSearcher, ResourceSearcher>();
+builder.Services.AddTransient<IResourceComparer, ResourceComparer>();
+builder.Services.AddTransient<IResourceMatcher, ResourceMatcher>();
+
+builder.Services.AddTransient<ISpotifyTrackResponseBuilder, SpotifyTrackResponseBuilder>();
+builder.Services.AddTransient<IYandexMusicTrackResponseBuilder, YandexMusicTrackResponseBuilder>();
+builder.Services.AddTransient<ISpotifyAlbumResponseBuilder, SpotifyAlbumResponseBuilder>();
+builder.Services.AddTransient<IYandexMusicAlbumResponseBuilder, YandexMusicAlbumResponseBuilder>();
+builder.Services.AddTransient<ISpotifyArtistResponseBuilder, SpotifyArtistResponseBuilder>();
+builder.Services.AddTransient<IYandexMusicArtistResponseBuilder, YandexMusicArtistResponseBuilder>();
 
 builder.Services.AddTransient<IStringComparison, LevenshteinDistanceStringComparison>();
 builder.Services.AddSingleton<ITelegramWorker, TelegramWorker>();

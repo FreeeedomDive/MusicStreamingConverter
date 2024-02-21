@@ -1,7 +1,7 @@
 ﻿namespace MusicSearch.Dto.Models;
 
-public enum TrackSource
+public enum Source
 {
     Spotify,
-    YandexMusic
+    YandexMusic,
 }

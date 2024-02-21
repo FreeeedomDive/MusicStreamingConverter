@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicSearch.SpotifyService"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicSearch.YandexMusicService", "MusicSearch.YandexMusicService\MusicSearch.YandexMusicService.csproj", "{2982ABF4-4DCA-4FFB-8F0A-72F6E797BAEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot.WorkerService", "TelegramBot.WorkerService\TelegramBot.WorkerService.csproj", "{F541A7F3-04CB-4AB0-857D-36EBBB633C77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot.Core", "TelegramBot.Core\TelegramBot.Core.csproj", "{F541A7F3-04CB-4AB0-857D-36EBBB633C77}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot.PollingDaemon", "TelegramBot.PollingDaemon\TelegramBot.PollingDaemon.csproj", "{C191B94B-D4EA-4E62-B63E-7B544EBD4819}"
 EndProject
@@ -27,6 +27,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C0E1390B-D0FD-4B33-AF9F-3EF9AFD4390A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{71926CA7-6E51-4EFF-BD52-8958CB15B5AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.LinksRecognizers", "Core.LinksRecognizers\Core.LinksRecognizers.csproj", "{845C173D-3470-464F-90CB-6A26A3DD7C26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,6 +76,10 @@ Global
 		{71926CA7-6E51-4EFF-BD52-8958CB15B5AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71926CA7-6E51-4EFF-BD52-8958CB15B5AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71926CA7-6E51-4EFF-BD52-8958CB15B5AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{845C173D-3470-464F-90CB-6A26A3DD7C26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{845C173D-3470-464F-90CB-6A26A3DD7C26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{845C173D-3470-464F-90CB-6A26A3DD7C26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{845C173D-3470-464F-90CB-6A26A3DD7C26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D9127560-5ED1-4DBE-932F-B879D89452D6} = {0BF372B6-7A0D-4B9E-9DF4-FB834902E629}
@@ -86,5 +92,6 @@ Global
 		{CE60D96A-7358-4910-80E7-C015DCA4129B} = {0BF372B6-7A0D-4B9E-9DF4-FB834902E629}
 		{FE2D6A8B-BB89-43DA-B6FD-F8F1C5DF0D36} = {E1AF8FB7-836B-421D-A348-D18A4D3B1B8D}
 		{71926CA7-6E51-4EFF-BD52-8958CB15B5AF} = {C0E1390B-D0FD-4B33-AF9F-3EF9AFD4390A}
+		{845C173D-3470-464F-90CB-6A26A3DD7C26} = {E1AF8FB7-836B-421D-A348-D18A4D3B1B8D}
 	EndGlobalSection
 EndGlobal

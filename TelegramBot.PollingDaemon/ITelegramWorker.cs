@@ -1,4 +1,4 @@
-﻿namespace TelegramBot.WorkerService;
+﻿namespace TelegramBot.PollingDaemon;
 
 public interface ITelegramWorker
 {

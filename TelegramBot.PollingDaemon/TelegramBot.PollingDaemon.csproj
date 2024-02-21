@@ -5,6 +5,7 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -13,9 +14,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Core.LinksRecognizers\Core.LinksRecognizers.csproj" />
       <ProjectReference Include="..\MusicSearch.Client\MusicSearch.Client.csproj" />
       <ProjectReference Include="..\Core.RestClient\Core.RestClient.csproj" />
-      <ProjectReference Include="..\TelegramBot.WorkerService\TelegramBot.WorkerService.csproj" />
+      <ProjectReference Include="..\TelegramBot.Core\TelegramBot.Core.csproj" />
     </ItemGroup>
 
 </Project>

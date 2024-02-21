@@ -4,8 +4,8 @@ COPY ["Core.RestClient/Core.RestClient.csproj", "Core.RestClient/"]
 COPY ["Core.StringComparison/Core.StringComparison.csproj", "Core.StringComparison/"]
 COPY ["MusicSearch.Client/MusicSearch.Client.csproj", "MusicSearch.Client/"]
 COPY ["MusicSearch.Dto/MusicSearch.Dto.csproj", "MusicSearch.Dto/"]
+COPY ["TelegramBot.Core/TelegramBot.Core.csproj", "TelegramBot.Core/"]
 COPY ["TelegramBot.PollingDaemon/TelegramBot.PollingDaemon.csproj", "TelegramBot.PollingDaemon/"]
-COPY ["TelegramBot.WorkerService/TelegramBot.WorkerService.csproj", "TelegramBot.WorkerService/"]
 
 RUN dotnet restore "TelegramBot.PollingDaemon/TelegramBot.PollingDaemon.csproj"
 COPY . .
